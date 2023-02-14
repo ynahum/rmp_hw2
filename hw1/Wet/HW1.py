@@ -3,6 +3,7 @@ import os
 from typing import List, Tuple
 
 import shapely.geometry
+import shapely.affinity
 
 from Plotter import Plotter
 from shapely.geometry.polygon import Polygon, LineString
@@ -33,6 +34,12 @@ def get_minkowsky_sum(original_shape: Polygon, r: float) -> Polygon:
         #r_poly = [(0, 0), (r, r), (0, 2*r), (-r, r)]
         r_points = [(r, r), (0, 0), (0, 2 * r), (-r, r)]
         r_poly = Polygon(r_points)
+        r_bb_bottom_left_point = shapely.geometry.Point(r_poly.bounds[:2])
+        #print(r_bb_bottom_left_point)
+        ref_point = min(r_poly.exterior.coords, key=lambda x: shapely.geometry.Point(x).distance(r_bb_bottom_left_point))
+        #print(ref_point)
+        r_trans = shapely.affinity.translate(r_poly, xoff=-ref_point[0], yoff=-ref_point[1])
+        #print(r_trans)
         #print(r_poly.exterior.coords[:])
         r_poly = shapely.geometry.polygon.orient(r_poly, sign=-1.0)
         #print(r_poly.exterior.coords[:])
