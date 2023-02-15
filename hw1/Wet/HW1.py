@@ -24,31 +24,45 @@ def get_minkowsky_sum(original_shape: Polygon, r: float) -> Polygon:
         for idx in range(num_of_ob_points):
             idx_offset = idx*4
             curr_obs_point = original_shape.exterior.coords[idx]
-            total_points[idx_offset] = tuple(sum(x) for x in zip((r, 0), curr_obs_point))
-            total_points[idx_offset + 1] = tuple(sum(x) for x in zip((0, r), curr_obs_point))
-            total_points[idx_offset + 2] = tuple(sum(x) for x in zip((-r, 0), curr_obs_point))
-            total_points[idx_offset + 3] = tuple(sum(x) for x in zip((0, -r), curr_obs_point))
+            total_points[idx_offset] = tuple(map(lambda i, j: i + j, (r, 0), curr_obs_point))
+            total_points[idx_offset + 1] = tuple(map(lambda i, j: i + j, (0, r), curr_obs_point))
+            total_points[idx_offset + 2] = tuple(map(lambda i, j: i + j, (-r, 0), curr_obs_point))
+            total_points[idx_offset + 3] = tuple(map(lambda i, j: i + j, (0, -r), curr_obs_point))
         ret_poly = Polygon(total_points).convex_hull
     else:
-        r_poly_points_list = [(0, -r), (r, 0), (0, r), (-r, 0)]
+        r_poly_points = [(0, -r), (r, 0), (0, r), (-r, 0)]
         ob_poly = shapely.geometry.polygon.orient(original_shape, 1)
         assert ob_poly.exterior.is_ccw
 
         # find the most bottom and then left coordinate and rotate the coords by it
-        ob_bbox = ob_poly.bounds
-        x_min = ob_bbox[2]
-        ob_points = ob_poly.exterior.coords[:]
+        ob_points = ob_poly.exterior.coords[:-1]
         pos = 0
         for idx, item in enumerate(ob_points):
-            if item[1] == ob_bbox[1] and item[0] <= x_min:
+            if item[1] < ob_points[pos][1] or (item[1] == ob_points[pos][1] and item[0] < ob_points[pos][0]):
                 pos = idx
-                x_min = item[0]
         #print(ob_points[:])
         ob_points = ob_points[pos:] + ob_points[:pos]
         #print(ob_points[:])
-        ob_rot = Polygon(ob_points)
 
-        ret_poly = ob_rot
+        # we append first vertices for being cyclic
+        r_poly_points.append(r_poly_points[0])
+        r_poly_points.append(r_poly_points[1])
+        ob_points.append(ob_points[0])
+        ob_points.append(ob_points[1])
+
+        out_points = []
+        i = 0
+        j = 0
+        while i < len(r_poly_points)-2 or j < len(ob_points)-2:
+            out_points.append(tuple(sum(x) for x in zip(r_poly_points[i], ob_points[j])))
+            p = tuple(map(lambda a, b: a - b, r_poly_points[i+1], r_poly_points[i]))
+            q = tuple(map(lambda a, b: a - b, ob_points[j+1], ob_points[j]))
+            cross_prod = p[0] * q[1] - p[1] * q[0]
+            if cross_prod >= 0:
+                i += 1
+            if cross_prod <= 0:
+                j += 1
+        ret_poly = Polygon(out_points)
 
     return ret_poly
 
