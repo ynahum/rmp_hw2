@@ -17,35 +17,38 @@ def get_minkowsky_sum(original_shape: Polygon, r: float) -> Polygon:
     :param r: The radius of the rhombus
     :return: The polygon composed from the Minkowsky sums
     """
-    convex_hull_method = True
+    convex_hull_method = False
+    num_of_ob_points = len(original_shape.exterior.coords) - 1
     if convex_hull_method:
-        num_of_points = len(original_shape.exterior.coords) - 1
-        total_points = num_of_points * 4 * [0]
-        for idx in range(num_of_points):
+        total_points = num_of_ob_points * 4 * [0]
+        for idx in range(num_of_ob_points):
             idx_offset = idx*4
             curr_obs_point = original_shape.exterior.coords[idx]
             total_points[idx_offset] = tuple(sum(x) for x in zip((r, 0), curr_obs_point))
             total_points[idx_offset + 1] = tuple(sum(x) for x in zip((0, r), curr_obs_point))
             total_points[idx_offset + 2] = tuple(sum(x) for x in zip((-r, 0), curr_obs_point))
             total_points[idx_offset + 3] = tuple(sum(x) for x in zip((0, -r), curr_obs_point))
-        #print(total_points[:])
         ret_poly = Polygon(total_points).convex_hull
     else:
-        #r_poly = [(0, 0), (r, r), (0, 2*r), (-r, r)]
-        r_points = [(r, r), (0, 0), (0, 2 * r), (-r, r)]
-        r_poly = Polygon(r_points)
-        r_bb_bottom_left_point = shapely.geometry.Point(r_poly.bounds[:2])
-        #print(r_bb_bottom_left_point)
-        ref_point = min(r_poly.exterior.coords, key=lambda x: shapely.geometry.Point(x).distance(r_bb_bottom_left_point))
-        #print(ref_point)
-        r_trans = shapely.affinity.translate(r_poly, xoff=-ref_point[0], yoff=-ref_point[1])
-        #print(r_trans)
-        #print(r_poly.exterior.coords[:])
-        r_poly = shapely.geometry.polygon.orient(r_poly, sign=-1.0)
-        #print(r_poly.exterior.coords[:])
-        #print(original_shape.exterior.coords[:])
-        ccw_poly = shapely.geometry.polygon.orient(original_shape)
-        ret_poly = original_shape
+        r_poly_points_list = [(0, -r), (r, 0), (0, r), (-r, 0)]
+        ob_poly = shapely.geometry.polygon.orient(original_shape, 1)
+        assert ob_poly.exterior.is_ccw
+
+        # find the most bottom and then left coordinate and rotate the coords by it
+        ob_bbox = ob_poly.bounds
+        x_min = ob_bbox[2]
+        ob_points = ob_poly.exterior.coords[:]
+        pos = 0
+        for idx, item in enumerate(ob_points):
+            if item[1] == ob_bbox[1] and item[0] <= x_min:
+                pos = idx
+                x_min = item[0]
+        #print(ob_points[:])
+        ob_points = ob_points[pos:] + ob_points[:pos]
+        #print(ob_points[:])
+        ob_rot = Polygon(ob_points)
+
+        ret_poly = ob_rot
 
     return ret_poly
 
