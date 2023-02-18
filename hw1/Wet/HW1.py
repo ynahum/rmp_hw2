@@ -68,6 +68,14 @@ def get_minkowsky_sum(original_shape: Polygon, r: float) -> Polygon:
 
 
 # TODO
+def is_visible_edge(obstacles: List[Polygon], candidate_edge):
+    for obstacle in obstacles:
+        if obstacle.intersects(candidate_edge):
+            if not obstacle.touches(candidate_edge):
+                return False
+    return True
+
+
 def get_visibility_graph(obstacles: List[Polygon], source=None, dest=None) -> List[LineString]:
     """
     Get The visibility graph of a given map
@@ -76,7 +84,28 @@ def get_visibility_graph(obstacles: List[Polygon], source=None, dest=None) -> Li
     :param dest: The destination of the query. None for part 1.
     :return: A list of LineStrings holding the edges of the visibility graph
     """
-    pass
+    vg_edges = []
+    vg_vertices = []
+    for ob in obstacles:
+        for coord in ob.exterior.coords:
+            vg_vertices.append(coord)
+    if source != None:
+        vg_vertices.append(source)
+    if dest != None:
+        vg_vertices.append(dest)
+    n = len(vg_vertices)
+    adj_connect_mat = [[False for u in range(n)] for v in range(n)]
+    for u_idx, u in enumerate(vg_vertices):
+        for v_idx, v in enumerate(vg_vertices):
+            if adj_connect_mat[v_idx][u_idx]:
+                adj_connect_mat[u_idx][v_idx] = True
+                continue
+            candidate_edge = LineString([u, v])
+            if is_visible_edge(obstacles, candidate_edge):
+                adj_connect_mat[u_idx][v_idx] = True
+                vg_edges.append(candidate_edge)
+    return vg_edges
+
 
 
 def is_valid_file(parser, arg):
@@ -123,7 +152,7 @@ if __name__ == '__main__':
     plotter1.add_robot(source, dist)
 
     plotter1.show_graph()
-    exit(0)
+
     # step 2:
 
     lines = get_visibility_graph(c_space_obstacles)
@@ -135,6 +164,7 @@ if __name__ == '__main__':
     plotter2.add_robot(source, dist)
 
     plotter2.show_graph()
+    exit(0)
 
     # step 3:
     with open(query, 'r') as f:
