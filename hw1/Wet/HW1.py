@@ -214,6 +214,8 @@ def vg_dijkstra(vg: VisibilityGraph) -> tuple[List, float]:
     shortest_path.append(curr.coords)
     shortest_path.reverse()
 
+    #print(f"the total cost is {cost}")
+    #print(f"the shortest_path is {shortest_path}")
     return shortest_path, cost
 
 
