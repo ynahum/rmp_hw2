@@ -8,6 +8,8 @@ import shapely.affinity
 from Plotter import Plotter
 from shapely.geometry.polygon import Polygon, LineString
 
+import heapq as heap
+
 
 # TODO
 def get_minkowsky_sum(original_shape: Polygon, r: float) -> Polygon:
@@ -76,6 +78,70 @@ def is_visible_edge(obstacles: List[Polygon], candidate_edge):
     return True
 
 
+class VisibilityGraphVertex:
+    def __init__(self, coords=None):
+        self.coords = coords
+        self.adj = []
+
+    def add_neighbor(self,node):
+        self.adj.append(node)
+
+    def get_coords(self):
+        return self.coords
+
+
+class VisibilityGraph:
+
+    def __init__(self, obstacles: List[Polygon], source=None, dest=None):
+        self.vertices = []
+        self.edges = []
+        self.src = None
+        self.dest = None
+        self.num_of_vertices = 0
+        if source is not None:
+            self.src = VisibilityGraphVertex(source)
+            self.num_of_vertices += 1
+        if dest is not None:
+            self.dest = VisibilityGraphVertex(dest)
+            self.num_of_vertices += 1
+        for ob in obstacles:
+            for coord in ob.exterior.coords:
+                self.vertices.append(VisibilityGraphVertex(coord))
+                self.num_of_vertices += 1
+        n = len(self.vertices)
+        adj_connect_mat = [[False for _ in range(n)] for _ in range(n)]
+        for u_idx, u in enumerate(self.vertices):
+            for v_idx, v in enumerate(self.vertices):
+                if adj_connect_mat[v_idx][u_idx]:
+                    adj_connect_mat[u_idx][v_idx] = True
+                    continue
+                if adj_connect_mat[u_idx][v_idx]:
+                    adj_connect_mat[v_idx][u_idx] = True
+                    continue
+                candidate_edge = LineString([u.get_coords(), v.get_coords()])
+                if is_visible_edge(obstacles, candidate_edge):
+                    adj_connect_mat[u_idx][v_idx] = True
+                    v.add_neighbor(u)
+                    u.add_neighbor(v)
+                    self.edges.append(candidate_edge)
+        for _, v in enumerate(self.vertices):
+            if source is not None:
+                candidate_edge = LineString([self.src.get_coords(), v.get_coords()])
+                if is_visible_edge(obstacles, candidate_edge):
+                    self.src.add_neighbor(v)
+                    v.add_neighbor(self.src)
+                    self.edges.append(candidate_edge)
+            if dest is not None:
+                candidate_edge = LineString([v.get_coords(), self.dest.get_coords()])
+                if is_visible_edge(obstacles, candidate_edge):
+                    self.dest.add_neighbor(v)
+                    v.add_neighbor(self.dest)
+                    self.edges.append(candidate_edge)
+
+    def get_edges(self):
+        return self.edges
+
+
 def get_visibility_graph(obstacles: List[Polygon], source=None, dest=None) -> List[LineString]:
     """
     Get The visibility graph of a given map
@@ -84,28 +150,28 @@ def get_visibility_graph(obstacles: List[Polygon], source=None, dest=None) -> Li
     :param dest: The destination of the query. None for part 1.
     :return: A list of LineStrings holding the edges of the visibility graph
     """
-    vg_edges = []
-    vg_vertices = []
-    for ob in obstacles:
-        for coord in ob.exterior.coords:
-            vg_vertices.append(coord)
-    if source != None:
-        vg_vertices.append(source)
-    if dest != None:
-        vg_vertices.append(dest)
-    n = len(vg_vertices)
-    adj_connect_mat = [[False for u in range(n)] for v in range(n)]
-    for u_idx, u in enumerate(vg_vertices):
-        for v_idx, v in enumerate(vg_vertices):
-            if adj_connect_mat[v_idx][u_idx]:
-                adj_connect_mat[u_idx][v_idx] = True
-                continue
-            candidate_edge = LineString([u, v])
-            if is_visible_edge(obstacles, candidate_edge):
-                adj_connect_mat[u_idx][v_idx] = True
-                vg_edges.append(candidate_edge)
-    return vg_edges
+    vg = VisibilityGraph(obstacles, source, dest)
+    return vg.get_edges()
 
+
+def vg_dijkstra(vg: VisibilityGraph) -> tuple[List, float]:
+    """
+    gets shortest path using dijkstra and this shortest path cost
+    """
+
+    # The priority queue
+    frontier = []
+    # The source has cost 0
+    heapq.heappush(frontier, (0,0))
+
+    # the visited nodes empty set
+    visited = set()
+
+
+    # TODO:
+    shortest_path = []
+    cost = 0
+    return shortest_path, cost
 
 
 def is_valid_file(parser, arg):
