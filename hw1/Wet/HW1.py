@@ -1,4 +1,5 @@
 import argparse
+import math
 import os
 from typing import List, Tuple
 
@@ -9,6 +10,8 @@ from Plotter import Plotter
 from shapely.geometry.polygon import Polygon, LineString
 
 import heapq as heap
+from collections import defaultdict
+
 
 
 # TODO
@@ -79,9 +82,13 @@ def is_visible_edge(obstacles: List[Polygon], candidate_edge):
 
 
 class VisibilityGraphVertex:
-    def __init__(self, coords=None):
+    def __init__(self, id, coords=None):
+        self.id = id
         self.coords = coords
         self.adj = []
+
+    def __lt__(self, other):
+        return self.id < other.id
 
     def add_neighbor(self,node):
         self.adj.append(node)
@@ -89,6 +96,8 @@ class VisibilityGraphVertex:
     def get_coords(self):
         return self.coords
 
+    def get_neighbors(self):
+        return self.adj
 
 class VisibilityGraph:
 
@@ -99,14 +108,14 @@ class VisibilityGraph:
         self.dest = None
         self.num_of_vertices = 0
         if source is not None:
-            self.src = VisibilityGraphVertex(source)
+            self.src = VisibilityGraphVertex(self.num_of_vertices, source)
             self.num_of_vertices += 1
         if dest is not None:
-            self.dest = VisibilityGraphVertex(dest)
+            self.dest = VisibilityGraphVertex(self.num_of_vertices, dest)
             self.num_of_vertices += 1
         for ob in obstacles:
             for coord in ob.exterior.coords:
-                self.vertices.append(VisibilityGraphVertex(coord))
+                self.vertices.append(VisibilityGraphVertex(self.num_of_vertices, coord))
                 self.num_of_vertices += 1
         n = len(self.vertices)
         adj_connect_mat = [[False for _ in range(n)] for _ in range(n)]
@@ -141,8 +150,10 @@ class VisibilityGraph:
     def get_edges(self):
         return self.edges
 
+    def get_vertex(self, id):
+        return self.vertices[id]
 
-def get_visibility_graph(obstacles: List[Polygon], source=None, dest=None) -> List[LineString]:
+def get_visibility_graph(obstacles: List[Polygon], source=None, dest=None) -> tuple[List[LineString], VisibilityGraph]:
     """
     Get The visibility graph of a given map
     :param obstacles: A list of the obstacles in the map
@@ -151,26 +162,58 @@ def get_visibility_graph(obstacles: List[Polygon], source=None, dest=None) -> Li
     :return: A list of LineStrings holding the edges of the visibility graph
     """
     vg = VisibilityGraph(obstacles, source, dest)
-    return vg.get_edges()
+    return vg.get_edges(), vg
 
+
+def calc_edge_cost(u, v):
+    u_coords = u.get_coords()
+    v_coords = v.get_coords()
+    x = u_coords[0] - v_coords[0]
+    y = u_coords[1] - v_coords[1]
+    return math.sqrt(x**2 + y**2)
 
 def vg_dijkstra(vg: VisibilityGraph) -> tuple[List, float]:
     """
     gets shortest path using dijkstra and this shortest path cost
     """
 
+    src = vg.src
+    costs = defaultdict(lambda: float('inf'))
+    costs[src.id] = 0
+    parents = dict()
+    parents[src.id] = None
+
     # The priority queue
     frontier = []
     # The source has cost 0
-    heapq.heappush(frontier, (0,0))
-
-    # the visited nodes empty set
+    heap.heappush(frontier, (0, src))
+    # the visited vertices empty set
     visited = set()
 
+    while frontier:
+        u_tuple = heap.heappop(frontier)
+        u = u_tuple[1]
+        if u is vg.dest:
+            break
+        visited.add(u)
+        for v in u.get_neighbors():
+            if v in visited:
+                continue
+            v_cost = costs[u.id] + calc_edge_cost(u, v)
+            if costs[v.id] > v_cost:
+                parents[v.id] = u
+                costs[v.id] = v_cost
+                heap.heappush(frontier, (v_cost, v))
 
-    # TODO:
     shortest_path = []
-    cost = 0
+    curr = vg.dest
+    cost = costs[curr.id]
+    while parents[curr.id] is not None:
+        shortest_path.append(curr.coords)
+        curr = parents[curr.id]
+    shortest_path.append(curr.coords)
+    shortest_path.reverse()
+
     return shortest_path, cost
 
 
@@ -221,7 +264,7 @@ if __name__ == '__main__':
 
     # step 2:
 
-    lines = get_visibility_graph(c_space_obstacles)
+    lines, _ = get_visibility_graph(c_space_obstacles)
     plotter2 = Plotter()
 
     plotter2.add_obstacles(workspace_obstacles)
@@ -230,15 +273,14 @@ if __name__ == '__main__':
     plotter2.add_robot(source, dist)
 
     plotter2.show_graph()
-    exit(0)
 
     # step 3:
     with open(query, 'r') as f:
         dest = tuple(map(float, f.readline().split(',')))
 
-    lines = get_visibility_graph(c_space_obstacles, source, dest)
+    lines, vg = get_visibility_graph(c_space_obstacles, source, dest)
     #TODO: fill in the next line
-    shortest_path, cost = None, None
+    shortest_path, cost = vg_dijkstra(vg)
 
     plotter3 = Plotter()
     plotter3.add_robot(source, dist)
