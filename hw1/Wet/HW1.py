@@ -22,7 +22,7 @@ def get_minkowsky_sum(original_shape: Polygon, r: float) -> Polygon:
     :param r: The radius of the rhombus
     :return: The polygon composed from the Minkowsky sums
     """
-    convex_hull_method = False
+    convex_hull_method = True
     num_of_ob_points = len(original_shape.exterior.coords) - 1
     if convex_hull_method:
         total_points = num_of_ob_points * 4 * [0]
