@@ -32,6 +32,6 @@ if __name__ == "__main__":
 
     # visualize the final path with edges or states according to the requested planner.
     if args.planner == 'astar':
-        planner.planning_env.visualize_map(plan=plan, expanded_nodes=planner.get_expanded_nodes())
+        planner.planning_env.visualize_map(show_map=True, plan=plan, expanded_nodes=planner.get_expanded_nodes())
     else:
-        planner.planning_env.visualize_map(plan=plan, tree_edges=planner.tree.get_edges_as_states())
+        planner.planning_env.visualize_map(show_map=True, plan=plan, tree_edges=planner.tree.get_edges_as_states())
