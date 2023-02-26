@@ -75,9 +75,8 @@ def get_minkowsky_sum(original_shape: Polygon, r: float) -> Polygon:
 # TODO
 def is_visible_edge(obstacles: List[Polygon], candidate_edge):
     for obstacle in obstacles:
-        if obstacle.intersects(candidate_edge):
-            if not obstacle.touches(candidate_edge):
-                return False
+        if obstacle.intersects(candidate_edge) and not obstacle.touches(candidate_edge):
+            return False
     return True
 
 

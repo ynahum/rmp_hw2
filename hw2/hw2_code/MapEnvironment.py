@@ -112,8 +112,7 @@ class MapEnvironment(object):
         '''
 
         # TODO: Task 4.3
-
-        pass
+        return self.compute_distance(state, self.goal)
 
     # ------------------------#
     # Visualization Functions
