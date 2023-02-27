@@ -19,6 +19,7 @@ class AStarPlanner(object):
         self.planning_env = planning_env
         self.epsilon = epsilon
         self.actions = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]
+
         # used for visualizing the expanded nodes
         # make sure that this structure will contain a list of positions (states, numpy arrays) without duplicates
         self.expanded_nodes = [] 
@@ -49,13 +50,18 @@ class AStarPlanner(object):
         reached_states = dict()
         goal_state = tuple(env.goal)
 
+        expanded_nodes_set = set()
+
+        print(f"start Astar epsilon {self.epsilon}")
+
         while frontier:
             node = heapq.heappop(frontier)
             del frontier_states[node.state]
 
-            self.expanded_nodes.append(node.state)
+            expanded_nodes_set.add(node.state)
 
             if node.state == goal_state:
+                print(f"found goal state")
                 break
 
             reached_states[node.state] = node
@@ -66,9 +72,8 @@ class AStarPlanner(object):
                 new_state_list = list(new_state)
                 if not env.state_validity_checker(new_state_list):
                     continue
-                # Make sure walkable terrain
-                if not env.edge_validity_checker(curr_state_list, new_state_list):
-                    continue
+                #if not env.edge_validity_checker(curr_state_list, new_state_list):
+                #    continue
                 new_g = node.g + env.compute_distance(curr_state_list, new_state_list)
                 new_h = env.compute_heuristic(new_state_list)
                 new_f = new_g + self.epsilon * new_h
@@ -97,6 +102,10 @@ class AStarPlanner(object):
                         frontier_states[new_state] = n_curr
                         del reached_states[new_state]
 
+        for state in expanded_nodes_set:
+            self.expanded_nodes.append(state)
+
+        print(f"calc total cost and plan")
         total_cost = 0
         current_node = node
         while current_node is not None:
@@ -108,6 +117,7 @@ class AStarPlanner(object):
             current_node = current_node.parent
         plan.reverse()
         print(f"total cost: {total_cost}")
+        print(f"amount of expanded nodes {len(self.expanded_nodes)}")
         return np.array(plan)
 
     def get_expanded_nodes(self):
