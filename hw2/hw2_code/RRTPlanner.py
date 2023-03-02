@@ -2,6 +2,7 @@ import numpy as np
 from RRTTree import RRTTree
 import time
 
+
 class RRTPlanner(object):
 
     def __init__(self, planning_env, ext_mode, goal_prob):
@@ -24,7 +25,48 @@ class RRTPlanner(object):
         plan = []
 
         # TODO: Task 4.4
-        
+
+        env = self.planning_env
+        start_state = env.start
+        goal_state = env.goal
+        self.tree = RRTTree(env)
+        self.tree.add_vertex(state=start_state)
+
+        while not self.tree.is_goal_exists(state=goal_state):
+
+            # 1. sample
+            if np.random.rand() < self.goal_prob:
+                rand_state = goal_state
+            else:
+                [x_min, x_max] = env.xlimit
+                [y_min, y_max] = env.ylimit
+                x_rand = np.random.uniform(x_min, x_max)
+                y_rand = np.random.uniform(y_min, y_max)
+                rand_state = np.array([x_rand, y_rand])
+
+            # 2. get nearest neighbor on the existing tree
+            [near_id, near_state] = self.tree.get_nearest_state(state=rand_state)
+
+            # 3. extend
+            new_state = self.extend(near_state, rand_state)
+
+            # 4. local planner
+            if env.state_validity_checker(state=new_state) and \
+                    self.planning_env.edge_validity_checker(state1=near_state, state2=new_state):
+                self.tree.add_vertex(state=new_state)
+                new_id = self.tree.get_idx_for_state(state=new_state)
+                dist = env.compute_distance(start_state=near_state, end_state=new_state)
+                self.tree.add_edge(sid=near_id, eid=new_id, edge_cost=dist)
+
+        curr_state_id = self.tree.get_idx_for_state(state=goal_state)
+        while curr_state_id != self.tree.get_root_id():
+            curr_state = self.tree.vertices[curr_state_id].state
+            plan.append(curr_state)
+            curr_state_id = self.tree.edges[curr_state_id]
+        curr_state = self.tree.vertices[curr_state_id].state
+        plan.append(curr_state)
+        plan.reverse()
+
         # print total path cost and time
         print('Total cost of path: {:.2f}'.format(self.compute_cost(plan)))
         print('Total time: {:.2f}'.format(time.time()-start_time))
@@ -37,8 +79,10 @@ class RRTPlanner(object):
         @param plan A given plan for the robot.
         '''
         # TODO: Task 4.4
-
-        pass
+        cost = 0
+        for idx in range(len(plan)-1):
+            cost += self.planning_env.compute_distance(plan[idx], plan[idx+1])
+        return cost
 
     def extend(self, near_state, rand_state):
         '''
@@ -47,5 +91,11 @@ class RRTPlanner(object):
         @param rand_state The sampled position.
         '''
         # TODO: Task 4.4
-
-        pass
+        eta = 0.3
+        new_state = rand_state
+        assert self.ext_mode == 'E1' or self.ext_mode == 'E1'
+        if self.ext_mode == 'E2':
+            distance = self.planning_env.compute_distance(near_state, rand_state)
+            direction = (rand_state - near_state) * 1 / distance
+            new_state = near_state + eta * distance * direction
+        return new_state
