@@ -52,7 +52,7 @@ class RRTPlanner(object):
 
             # 4. local planner
             if env.state_validity_checker(state=new_state) and \
-                    self.planning_env.edge_validity_checker(state1=near_state, state2=new_state):
+                    env.edge_validity_checker(state1=near_state, state2=new_state):
                 self.tree.add_vertex(state=new_state)
                 new_id = self.tree.get_idx_for_state(state=new_state)
                 dist = env.compute_distance(start_state=near_state, end_state=new_state)
@@ -80,8 +80,9 @@ class RRTPlanner(object):
         '''
         # TODO: Task 4.4
         cost = 0
+        env = self.planning_env
         for idx in range(len(plan)-1):
-            cost += self.planning_env.compute_distance(plan[idx], plan[idx+1])
+            cost += env.compute_distance(start_state=plan[idx], end_state=plan[idx+1])
         return cost
 
     def extend(self, near_state, rand_state):
@@ -91,11 +92,11 @@ class RRTPlanner(object):
         @param rand_state The sampled position.
         '''
         # TODO: Task 4.4
-        eta = 0.3
-        new_state = rand_state
-        assert self.ext_mode == 'E1' or self.ext_mode == 'E1'
-        if self.ext_mode == 'E2':
-            distance = self.planning_env.compute_distance(near_state, rand_state)
-            direction = (rand_state - near_state) * 1 / distance
-            new_state = near_state + eta * distance * direction
-        return new_state
+
+        eta = 1 #0.7
+        if self.ext_mode == 'E1':
+            return rand_state
+        elif self.ext_mode == 'E2':
+            return near_state + eta * (rand_state - near_state)
+        else:
+            assert 0
