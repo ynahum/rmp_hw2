@@ -18,13 +18,37 @@ class RRTStarPlanner(object):
         self.num_of_runs_for_average = num_of_runs_for_average
 
     def get_knn(self, new_state):
-        knn_ids = []
         if self.k >= len(self.tree.vertices):
-            for i in range(len(self.tree.vertices)):
-                knn_ids.append(i)
+            knn_ids = []
+            knn_states = []
+            for vid in range(len(self.tree.vertices)):
+                knn_ids.append(vid)
+                knn_states.append(self.tree.vertices[vid].state)
+            return [knn_ids, knn_states]
         else:
-            [knn_ids, _] = self.tree.get_k_nearest_neighbors(state=new_state, k=self.k)
-        return knn_ids
+            return self.tree.get_k_nearest_neighbors(state=new_state, k=self.k)
+
+    def filter_valid_edges_from_state_to_neighbors(self, state, neighbors_states):
+        env = self.planning_env
+        filtered_neighbors_ids = []
+        for n_state in neighbors_states:
+            if env.edge_validity_checker(state1=state, state2=n_state):
+                filtered_neighbors_ids.append(self.tree.get_idx_for_state(n_state))
+        return filtered_neighbors_ids
+
+    def rewire(self, potential_parent_vertex, child_vertex):
+        # if collision free
+        #   edge_cost <- dist(potential_parent, child)
+        #   if cost(potential_parent) + edge_cost < cost(child):
+        #      child.parent = potential_parent
+
+        # we have checked already collision (filtered only knn which can connect)
+        # and now we just need to check if there is some cost improvement
+        edge_cost = self.planning_env.compute_distance(potential_parent_vertex.state, child_vertex.state)
+        if child_vertex.cost > (potential_parent_vertex.cost + edge_cost):
+            parent_id = self.tree.get_idx_for_state(potential_parent_vertex.state)
+            child_id = self.tree.get_idx_for_state(child_vertex.state)
+            self.tree.add_edge(parent_id, child_id, edge_cost)
 
     def plan(self):
         '''
@@ -73,11 +97,18 @@ class RRTStarPlanner(object):
                 # 4. local planner
                 if env.state_validity_checker(state=new_state) and \
                         env.edge_validity_checker(state1=near_state, state2=new_state):
-                    self.tree.add_vertex(state=new_state)
-                    new_id = self.tree.get_idx_for_state(state=new_state)
+                    new_id = self.tree.add_vertex(state=new_state)
                     dist = env.compute_distance(start_state=near_state, end_state=new_state)
                     self.tree.add_edge(sid=near_id, eid=new_id, edge_cost=dist)
+                    [_, knn_states] = self.get_knn(new_state)
+                    knn_id_valids = self.filter_valid_edges_from_state_to_neighbors(new_state, knn_states)
+                    for nn_id in knn_id_valids:
+                        self.rewire(self.tree.vertices[nn_id], self.tree.vertices[new_id])
+                    for nn_id in knn_id_valids:
+                        self.rewire(self.tree.vertices[new_id], self.tree.vertices[nn_id])
+                    self.k = int(np.ceil(np.log2(len(self.tree.vertices))))
 
+            # get plan
             curr_state_id = self.tree.get_idx_for_state(state=goal_state)
             while curr_state_id != self.tree.get_root_id():
                 curr_state = self.tree.vertices[curr_state_id].state

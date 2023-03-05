@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c8fde699-a938-4e5f-bf42-0617837b8e0d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw2/hw2_code/RRTStarPlanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw2/hw2_code/RRTStarPlanner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw2/hw2_code/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw2/hw2_code/run.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2L9VxRty7HE2kcb4ZeOvk1P0iqq" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/ynahum/OneDrive - Intel Corporation/Personal-ynahum-MOBL/studies/master/courses/236901_algo_motion_plan/hw/hw2",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ynahum\OneDrive - Intel Corporation\Personal-ynahum-MOBL\studies\master\courses\236901_algo_motion_plan\hw\hw2" />
+      <recent name="C:\Users\ynahum\OneDrive - Intel Corporation\Personal-ynahum-MOBL\studies\master\courses\236901_algo_motion_plan\hw\hw1\Wet" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.run_rrt_m2">
+    <configuration name="HW1" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="hw" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\ynahum\Anaconda3\envs\deep_learn\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../hw_ref/hw1RoeeZohar/hw1RoeeZohar/code" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../hw_ref/hw1RoeeZohar/hw1RoeeZohar/code/HW1.py" />
+      <option name="PARAMETERS" value="robot obstacles query" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="HW1_2" type="PythonConfigurationType" factoryName="Python">
+      <module name="hw" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hw1/Wet" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw1/Wet/HW1.py" />
+      <option name="PARAMETERS" value="robot obstacles query" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="HW1_3" type="PythonConfigurationType" factoryName="Python">
+      <module name="hw" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hw1/Wet" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw1/Wet/HW1.py" />
+      <option name="PARAMETERS" value="robot2 obstacles2 query2" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="HW1_4" type="PythonConfigurationType" factoryName="Python">
+      <module name="hw" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hw1/Wet" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw1/Wet/HW1.py" />
+      <option name="PARAMETERS" value="robot3 obstacles3 query3" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run_a_m1" type="PythonConfigurationType" factoryName="Python">
+      <module name="hw" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\ynahum\Anaconda3\envs\deep_learn\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hw2/hw2_code" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw2/hw2_code/run.py" />
+      <option name="PARAMETERS" value="-map map1.json -planner astar" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run_a_m2" type="PythonConfigurationType" factoryName="Python">
+      <module name="hw" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\ynahum\Anaconda3\envs\deep_learn\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hw2/hw2_code" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw2/hw2_code/run.py" />
+      <option name="PARAMETERS" value="-map map2.json -planner astar" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run_rrt_m1" type="PythonConfigurationType" factoryName="Python">
+      <module name="hw" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\ynahum\Anaconda3\envs\deep_learn\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hw2/hw2_code" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw2/hw2_code/run.py" />
+      <option name="PARAMETERS" value="-map map1.json -planner rrt" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run_rrt_m2" type="PythonConfigurationType" factoryName="Python">
+      <module name="hw" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\ynahum\Anaconda3\envs\deep_learn\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hw2/hw2_code" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw2/hw2_code/run.py" />
+      <option name="PARAMETERS" value="-map map2.json -planner rrt -ext_mode E2 -goal_prob 0.05" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run_rrt_star_m2" type="PythonConfigurationType" factoryName="Python">
+      <module name="hw" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\ynahum\Anaconda3\envs\deep_learn\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hw2/hw2_code" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw2/hw2_code/run.py" />
+      <option name="PARAMETERS" value="-map map2.json -planner rrtstar -ext_mode E1 -goal_prob 0.05 -k 1" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.HW1_2" />
+      <item itemvalue="Python.run_a_m2" />
+      <item itemvalue="Python.run_rrt_m1" />
+      <item itemvalue="Python.run_rrt_m2" />
+      <item itemvalue="Python.run_rrt_star_m2" />
+      <item itemvalue="Python.run_a_m1" />
+      <item itemvalue="Python.HW1_4" />
+      <item itemvalue="Python.HW1" />
+      <item itemvalue="Python.HW1_3" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c8fde699-a938-4e5f-bf42-0617837b8e0d" name="Changes" comment="" />
+      <created>1675283532085</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1675283532085</updated>
+      <workItem from="1675283535707" duration="1698000" />
+      <workItem from="1675547695630" duration="1669000" />
+      <workItem from="1676202463575" duration="3548000" />
+      <workItem from="1676406974773" duration="8399000" />
+      <workItem from="1676477758807" duration="11987000" />
+      <workItem from="1676755997898" duration="5118000" />
+      <workItem from="1676810499068" duration="667000" />
+      <workItem from="1676811276511" duration="20329000" />
+      <workItem from="1676901752524" duration="2668000" />
+      <workItem from="1677001819555" duration="3522000" />
+      <workItem from="1677429643525" duration="3236000" />
+      <workItem from="1677444330404" duration="9127000" />
+      <workItem from="1677481428827" duration="15310000" />
+      <workItem from="1677777791971" duration="7004000" />
+      <workItem from="1677960629725" duration="9461000" />
+      <workItem from="1678000469357" duration="6861000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/hw1/Wet/HW1.py</url>
+          <line>251</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/hw$HW1.coverage" NAME="HW1 Coverage Results" MODIFIED="1676843923916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../hw_ref/hw1RoeeZohar/hw1RoeeZohar/code" />
+    <SUITE FILE_PATH="coverage/hw$run_rrt_star_m2.coverage" NAME="run_rrt_star_m2 Coverage Results" MODIFIED="1678009244737" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
+    <SUITE FILE_PATH="coverage/hw$plot_ball.coverage" NAME="plot_ball Coverage Results" MODIFIED="1677006850439" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2" />
+    <SUITE FILE_PATH="coverage/hw$run_a_m2.coverage" NAME="run_a_m2 Coverage Results" MODIFIED="1677509941897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
+    <SUITE FILE_PATH="coverage/hw$run_rrt_m1.coverage" NAME="run_rrt_m1 Coverage Results" MODIFIED="1677792343153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
+    <SUITE FILE_PATH="coverage/hw$HW1_2.coverage" NAME="HW1_2 Coverage Results" MODIFIED="1677443531448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw1/Wet" />
+    <SUITE FILE_PATH="coverage/hw$HW1_3.coverage" NAME="HW1_3 Coverage Results" MODIFIED="1676905910482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw1/Wet" />
+    <SUITE FILE_PATH="coverage/hw$run_rrt_m2.coverage" NAME="run_rrt_m2 Coverage Results" MODIFIED="1677967063157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
+    <SUITE FILE_PATH="coverage/hw$HW1__2_.coverage" NAME="HW1_3 Coverage Results" MODIFIED="1676846311496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw1/Wet" />
+    <SUITE FILE_PATH="coverage/hw$run_a.coverage" NAME="run_a Coverage Results" MODIFIED="1677452680708" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
+    <SUITE FILE_PATH="coverage/hw$run_a_m1.coverage" NAME="run_a_m1 Coverage Results" MODIFIED="1677495808933" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
+  </component>
+</project>
