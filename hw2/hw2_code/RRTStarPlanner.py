@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from RRTTree import RRTTree
 import time
@@ -14,6 +15,10 @@ class RRTStarPlanner(object):
         self.ext_mode = ext_mode
         self.goal_prob = goal_prob
         self.k = k
+        if k == 0:
+            self.const_k = False
+        else:
+            self.const_k = True
         self.eta = eta
         self.num_of_runs_for_average = num_of_runs_for_average
 
@@ -50,6 +55,24 @@ class RRTStarPlanner(object):
             child_id = self.tree.get_idx_for_state(child_vertex.state)
             self.tree.add_edge(parent_id, child_id, edge_cost)
 
+    def plots(self, run_times, costs):
+        max_run_time = np.max(np.array(run_times))
+        num_of_runs = len(run_times)
+        step = max_run_time/num_of_runs
+        t = np.arange(start=0, stop=max_run_time+step/2, step=step)
+        run_times_sorted = run_times
+        run_times_sorted.sort()
+        rate_of_success = []
+        run_times_idx = 0
+        success_counter = 0
+        for t_idx, t_val in enumerate(t):
+            while run_times_idx < num_of_runs and t_val >= run_times_sorted[run_times_idx]:
+                run_times_idx += 1
+                success_counter += 1
+            rate_of_success[t_idx] = success_counter/num_of_runs
+        plt.plot(t, rate_of_success)
+        plt.show()
+
     def plan(self):
         '''
         Compute and return the plan. The function should return a numpy array containing the states (positions) of the robot.
@@ -61,11 +84,12 @@ class RRTStarPlanner(object):
 
         # TODO: Task 4.4
 
-
         env = self.planning_env
         start_state = env.start
         goal_state = env.goal
 
+        run_times = []
+        costs = []
         sum_cost = 0
         sum_time = 0
         for run_idx in range(self.num_of_runs_for_average):
@@ -100,13 +124,15 @@ class RRTStarPlanner(object):
                     new_id = self.tree.add_vertex(state=new_state)
                     dist = env.compute_distance(start_state=near_state, end_state=new_state)
                     self.tree.add_edge(sid=near_id, eid=new_id, edge_cost=dist)
+
+                    if self.const_k is False:
+                        self.k = int(np.ceil(np.log2(len(self.tree.vertices))))
                     [_, knn_states] = self.get_knn(new_state)
                     knn_id_valids = self.filter_valid_edges_from_state_to_neighbors(new_state, knn_states)
                     for nn_id in knn_id_valids:
                         self.rewire(self.tree.vertices[nn_id], self.tree.vertices[new_id])
                     for nn_id in knn_id_valids:
                         self.rewire(self.tree.vertices[new_id], self.tree.vertices[nn_id])
-                    self.k = int(np.ceil(np.log2(len(self.tree.vertices))))
 
             # get plan
             curr_state_id = self.tree.get_idx_for_state(state=goal_state)
@@ -121,12 +147,16 @@ class RRTStarPlanner(object):
             # print total path cost and time
             cost = self.compute_cost(plan)
             run_time = time.time() - start_time
+            run_times.append(run_time)
+            costs.append(cost)
             print('Total cost of path (run {}): {:.2f}'.format(run_idx, cost))
             print('Total time (run {}): {:.2f}'.format(run_idx, run_time))
             sum_cost += cost
             sum_time += run_time
-        avg_cost = sum_cost/self.num_of_runs_for_average
-        avg_time = sum_time/self.num_of_runs_for_average
+
+        self.plots(run_times, costs)
+        avg_cost = sum_cost/ self.num_of_runs_for_average
+        avg_time = sum_time/ self.num_of_runs_for_average
         print('Calc plan for:')
         print(f'Goal prob: {self.goal_prob}')
         print(f'Extend mode: {self.ext_mode}')

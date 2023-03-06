@@ -22,10 +22,10 @@ if __name__ == "__main__":
         planner = AStarPlanner(planning_env=planning_env)
     elif args.planner == 'rrt':
         planner = RRTPlanner(planning_env=planning_env, ext_mode=args.ext_mode,
-                             goal_prob=args.goal_prob, num_of_runs_for_average=10, eta=0.5)
+                             goal_prob=args.goal_prob, num_of_runs_for_average=10, eta=0.8)
     elif args.planner == 'rrtstar':
         planner = RRTStarPlanner(planning_env=planning_env, ext_mode=args.ext_mode,
-                                 goal_prob=args.goal_prob, k=args.k, num_of_runs_for_average=10, eta=0.5)
+                                 goal_prob=args.goal_prob, k=args.k, num_of_runs_for_average=10, eta=0.8)
     else:
         raise ValueError('Unknown planner option: %s' % args.planner);
 
