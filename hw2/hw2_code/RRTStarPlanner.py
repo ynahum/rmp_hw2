@@ -56,10 +56,8 @@ class RRTStarPlanner(object):
             self.tree.add_edge(parent_id, child_id, edge_cost)
 
     def plots(self, run_times, costs):
-        max_run_time = np.max(np.array(run_times))
         num_of_runs = len(run_times)
-        step = max_run_time/num_of_runs
-        t = np.arange(start=0, stop=max_run_time+step/2, step=step)
+        t = np.arange(start=0, stop=50)
         run_times_sorted = run_times
         run_times_sorted.sort()
         rate_of_success = []
@@ -69,8 +67,14 @@ class RRTStarPlanner(object):
             while run_times_idx < num_of_runs and t_val >= run_times_sorted[run_times_idx]:
                 run_times_idx += 1
                 success_counter += 1
-            rate_of_success[t_idx] = success_counter/num_of_runs
+            rate_of_success.append(success_counter/num_of_runs)
+        if self.const_k is True:
+            plt.title(f'const K = {self.k}')
+        else:
+            plt.title(f'K = log(i)')
         plt.plot(t, rate_of_success)
+        plt.xlabel('time')
+        plt.ylabel('success rate')
         plt.show()
 
     def plan(self):
@@ -159,6 +163,10 @@ class RRTStarPlanner(object):
         avg_time = sum_time/ self.num_of_runs_for_average
         print('Calc plan for:')
         print(f'Goal prob: {self.goal_prob}')
+        if self.const_k is True:
+            print(f'const k: {self.k}')
+        else:
+            print(f'k is log(i)')
         print(f'Extend mode: {self.ext_mode}')
         if self.ext_mode == 'E2':
             print(f'eta: {self.eta}')
