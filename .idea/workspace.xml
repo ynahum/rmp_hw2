@@ -4,7 +4,7 @@
     <list default="true" id="c8fde699-a938-4e5f-bf42-0617837b8e0d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw2/hw2_code/RRTStarPlanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw2/hw2_code/RRTStarPlanner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw2/hw2_code/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw2/hw2_code/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw2/rrtstart_k_log_e1_g0_05_plot_success_rate.png" beforeDir="false" afterPath="$PROJECT_DIR$/hw2/rrtstart_k_log_e1_g0_05_plot_success_rate.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +28,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/ynahum/OneDrive - Intel Corporation/Personal-ynahum-MOBL/studies/master/courses/236901_algo_motion_plan/hw",
+    "last_opened_file_path": "C:/Users/ynahum/OneDrive - Intel Corporation/Personal-ynahum-MOBL/studies/master/courses/236901_algo_motion_plan/hw/hw2",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
@@ -230,7 +230,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw2/hw2_code/run.py" />
-      <option name="PARAMETERS" value="-map map2.json -planner rrtstar -ext_mode E1 -goal_prob 0.05 -k 0" />
+      <option name="PARAMETERS" value="-map map2.json -planner rrtstar -ext_mode E1 -goal_prob 0.05 -k 5" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -276,7 +276,9 @@
       <workItem from="1678000469357" duration="7577000" />
       <workItem from="1678050953338" duration="306000" />
       <workItem from="1678137833899" duration="5010000" />
-      <workItem from="1678225609605" duration="2763000" />
+      <workItem from="1678225609605" duration="3306000" />
+      <workItem from="1678265259299" duration="1398000" />
+      <workItem from="1678266708255" duration="6082000" />
     </task>
     <servers />
   </component>
@@ -302,12 +304,17 @@
           <line>251</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/hw2/hw2_code/RRTStarPlanner.py</url>
+          <line>61</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/hw$HW1.coverage" NAME="HW1 Coverage Results" MODIFIED="1676843923916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../hw_ref/hw1RoeeZohar/hw1RoeeZohar/code" />
-    <SUITE FILE_PATH="coverage/hw$run_rrt_star_m2.coverage" NAME="run_rrt_star_m2 Coverage Results" MODIFIED="1678228224694" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
+    <SUITE FILE_PATH="coverage/hw$run_rrt_star_m2.coverage" NAME="run_rrt_star_m2 Coverage Results" MODIFIED="1678289247463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
     <SUITE FILE_PATH="coverage/hw$plot_ball.coverage" NAME="plot_ball Coverage Results" MODIFIED="1677006850439" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2" />
     <SUITE FILE_PATH="coverage/hw$run_a_m2.coverage" NAME="run_a_m2 Coverage Results" MODIFIED="1677509941897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
     <SUITE FILE_PATH="coverage/hw$run_rrt_m1.coverage" NAME="run_rrt_m1 Coverage Results" MODIFIED="1677792343153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />

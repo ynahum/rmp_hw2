@@ -58,8 +58,9 @@ class RRTStarPlanner(object):
     def plots(self, run_times, costs):
         num_of_runs = len(run_times)
         t = np.arange(start=0, stop=50)
-        run_times_sorted = run_times
-        run_times_sorted.sort()
+        run_times_np_arr = np.array(run_times)
+        run_time_sorted_indices = np.argsort(run_times_np_arr)
+        run_times_sorted = run_times_np_arr[run_time_sorted_indices]
         rate_of_success = []
         run_times_idx = 0
         success_counter = 0
@@ -69,13 +70,30 @@ class RRTStarPlanner(object):
                 success_counter += 1
             rate_of_success.append(success_counter/num_of_runs)
         if self.const_k is True:
-            plt.title(f'const K = {self.k}')
+            title_append = f'const K = {self.k}'
         else:
-            plt.title(f'K = log(i)')
+            title_append = f'K = log(i)'
+        title = 'success rate vs time '
+        title += title_append
         plt.plot(t, rate_of_success)
+        plt.title(title)
         plt.xlabel('time')
         plt.ylabel('success rate')
         plt.show()
+
+        #cost_sorted_indices = np.argsort(costs_np_arr)
+        #run_times_cost_sorted = run_times_np_arr[cost_sorted_indices]
+        costs_np_arr = np.array(costs)
+        costs_sorted = costs_np_arr[run_time_sorted_indices]
+        title = 'quality vs time '
+        title += title_append
+
+        plt.plot(run_times_sorted, costs_sorted)
+        plt.title(title)
+        plt.xlabel('time')
+        plt.ylabel('cost')
+        plt.show()
+
 
     def plan(self):
         '''
@@ -92,6 +110,8 @@ class RRTStarPlanner(object):
         start_state = env.start
         goal_state = env.goal
 
+        best_cost = 10000
+        best_plan = []
         run_times = []
         costs = []
         sum_cost = 0
@@ -157,7 +177,9 @@ class RRTStarPlanner(object):
             print('Total time (run {}): {:.2f}'.format(run_idx, run_time))
             sum_cost += cost
             sum_time += run_time
-
+            if cost < best_cost:
+                best_cost = cost
+                best_plan = plan[:]
         self.plots(run_times, costs)
         avg_cost = sum_cost/ self.num_of_runs_for_average
         avg_time = sum_time/ self.num_of_runs_for_average
@@ -170,10 +192,12 @@ class RRTStarPlanner(object):
         print(f'Extend mode: {self.ext_mode}')
         if self.ext_mode == 'E2':
             print(f'eta: {self.eta}')
+
+        print('Best plan cost: {:.2f}'.format(best_cost))
         print('Avg cost of path: {:.2f}'.format(avg_cost))
         print('Avg time: {:.2f}'.format(avg_time))
 
-        return np.array(plan)
+        return np.array(best_plan)
 
     def compute_cost(self, plan):
         '''
