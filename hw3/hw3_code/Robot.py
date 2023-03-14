@@ -24,18 +24,24 @@ class Robot(object):
         @param prev_config Previous configuration.
         @param next_config Next configuration.
         '''
-        # TODO: Task 2.2
-
-        pass
+        #prev_ee = self.compute_forward_kinematics(prev_config)
+        #curr_ee = self.compute_forward_kinematics(next_config)
+        return np.linalg.norm(prev_config - next_config)
 
     def compute_forward_kinematics(self, given_config):
         '''
         Compute the 2D position (x,y) of each one of the links (including end-effector) and return.
         @param given_config Given configuration.
         '''
-        # TODO: Task 2.2
-
-        pass
+        joints_positions = np.zeros((4, 2))
+        curr_link_angle = 0
+        prev_link_position = (0, 0)
+        for i, link in enumerate(self.links):
+            curr_link_angle = self.compute_link_angle(prev_link_angle=curr_link_angle, given_angle=given_config[i])
+            joints_positions[i, 0] = prev_link_position[0] + link * np.cos(curr_link_angle)
+            joints_positions[i, 1] = prev_link_position[1] + link * np.sin(curr_link_angle)
+            prev_link_position = joints_positions[i]
+        return joints_positions
 
     def compute_ee_angle(self, given_config):
         '''
@@ -67,6 +73,14 @@ class Robot(object):
         @param robot_positions Given links positions.
         '''
         # TODO: Task 2.2
-
-        pass
+        arm_points = [(0, 0)]
+        arm_points += robot_positions
+        num_of_points = len(arm_points)
+        for i in range(num_of_points-2):
+            link1 = LineString(arm_points[i:i+2, :])
+            for j in range(i+1, num_of_points-1):
+                link2 = LineString(arm_points[j:j+2, :])
+                if link1.intersects(link2):
+                    return False
+        return True
     
