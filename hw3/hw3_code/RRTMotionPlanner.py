@@ -1,6 +1,7 @@
 import numpy as np
 from RRTTree import RRTTree
 import time
+import Robot
 
 class RRTMotionPlanner(object):
 
@@ -13,6 +14,10 @@ class RRTMotionPlanner(object):
         # set search params
         self.ext_mode = ext_mode
         self.goal_prob = goal_prob
+        self.eta = 0.5
+
+        self.num_of_runs_for_average = 1
+        self.Robot = Robot.Robot()
 
     def plan(self):
         '''
@@ -24,12 +29,76 @@ class RRTMotionPlanner(object):
         plan = []
 
         # TODO: Task 2.3
-        
-        # print total path cost and time
-        print('Total cost of path: {:.2f}'.format(self.compute_cost(plan)))
-        print('Total time: {:.2f}'.format(time.time()-start_time))
+
+        env = self.planning_env
+        start_state = env.start
+        goal_state = env.goal
+
+        sum_cost = 0
+        sum_time = 0
+        for run_idx in range(self.num_of_runs_for_average):
+
+            start_time = time.time()
+            plan = []
+
+            self.tree = RRTTree(env)
+            self.tree.add_vertex(config=start_state)
+
+            while not self.tree.is_goal_exists(config=goal_state):
+
+                # 1. sample
+                if np.random.rand() < self.goal_prob:
+                    rand_state = goal_state
+                else:
+                    min_angle = -np.pi
+                    max_angle = np.pi
+                    rand_state = \
+                        np.array([np.random.uniform(min_angle, max_angle),
+                                  np.random.uniform(min_angle, max_angle),
+                                  np.random.uniform(min_angle, max_angle),
+                                  np.random.uniform(min_angle, max_angle)])
+
+                # 2. get nearest neighbor on the existing tree
+                [near_id, near_state] = self.tree.get_nearest_config(config=rand_state)
+
+                # 3. extend
+                new_state = self.extend(near_state, rand_state)
+
+                # 4. local planner
+                if env.config_validity_checker(config=new_state) and \
+                        env.edge_validity_checker(config1=near_state, config2=new_state):
+                    new_id = self.tree.add_vertex(config=new_state)
+                    dist = self.Robot.compute_distance(prev_config=near_state, next_config=new_state)
+                    self.tree.add_edge(sid=near_id, eid=new_id, edge_cost=dist)
+
+            curr_state_id = self.tree.get_idx_for_config(config=goal_state)
+            while curr_state_id != self.tree.get_root_id():
+                curr_state = self.tree.vertices[curr_state_id].config
+                plan.append(curr_state)
+                curr_state_id = self.tree.edges[curr_state_id]
+            curr_state = self.tree.vertices[curr_state_id].config
+            plan.append(curr_state)
+            plan.reverse()
+
+            # print total path cost and time
+            cost = self.compute_cost(plan)
+            run_time = time.time() - start_time
+            print('Total cost of path (run {}): {:.2f}'.format(run_idx, cost))
+            print('Total time (run {}): {:.2f}'.format(run_idx, run_time))
+            sum_cost += cost
+            sum_time += run_time
+        avg_cost = sum_cost/self.num_of_runs_for_average
+        avg_time = sum_time/self.num_of_runs_for_average
+        print('Calc plan for:')
+        print(f'Goal prob: {self.goal_prob}')
+        print(f'Extend mode: {self.ext_mode}')
+        if self.ext_mode == 'E2':
+            print(f'eta: {self.eta}')
+        print('Avg cost of path: {:.2f}'.format(avg_cost))
+        print('Avg time: {:.2f}'.format(avg_time))
 
         return np.array(plan)
+
 
     def compute_cost(self, plan):
         '''
@@ -37,8 +106,11 @@ class RRTMotionPlanner(object):
         @param plan A given plan for the robot.
         '''
         # TODO: Task 2.3
+        cost = 0
+        for idx in range(len(plan)-1):
+            cost += self.Robot.compute_distance(plan[idx], plan[idx+1])
+        return cost
 
-        pass
 
     def extend(self, near_config, rand_config):
         '''
@@ -47,6 +119,9 @@ class RRTMotionPlanner(object):
         @param rand_config The sampled configuration.
         '''
         # TODO: Task 2.3
-
-        pass
-    
+        if self.ext_mode == 'E1':
+            return rand_config
+        elif self.ext_mode == 'E2':
+            return near_config + self.eta * (rand_config - near_config)
+        else:
+            assert 0

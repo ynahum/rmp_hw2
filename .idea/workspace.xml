@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c8fde699-a938-4e5f-bf42-0617837b8e0d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw3/hw3_code/RRTMotionPlanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw3/hw3_code/RRTMotionPlanner.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw3/hw3_code/Robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw3/hw3_code/Robot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw3/hw3_code/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw3/hw3_code/run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +40,7 @@
       <recent name="C:\Users\ynahum\OneDrive - Intel Corporation\Personal-ynahum-MOBL\studies\master\courses\236901_algo_motion_plan\hw\hw1\Wet" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run_rrt_star_m2">
+  <component name="RunManager" selected="Python.run_mp">
     <configuration name="HW1" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="hw" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -173,6 +173,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="run_mp" type="PythonConfigurationType" factoryName="Python">
+      <module name="hw" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\ynahum\Anaconda3\envs\deep_learn\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hw3/hw3_code" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw3/hw3_code/run.py" />
+      <option name="PARAMETERS" value="-map map_mp.json -task mp -ext_mode E1 -goal_prob 0.2" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="run_rrt_m1" type="PythonConfigurationType" factoryName="Python">
       <module name="hw" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -244,6 +266,7 @@
       <item itemvalue="Python.run_a_m2" />
       <item itemvalue="Python.run_rrt_m1" />
       <item itemvalue="Python.run_rrt_m2" />
+      <item itemvalue="Python.run_mp" />
       <item itemvalue="Python.run_rrt_star_m2" />
       <item itemvalue="Python.run_a_m1" />
       <item itemvalue="Python.HW1_4" />
@@ -280,7 +303,7 @@
       <workItem from="1678225609605" duration="3306000" />
       <workItem from="1678265259299" duration="1398000" />
       <workItem from="1678266708255" duration="7833000" />
-      <workItem from="1678796894511" duration="8708000" />
+      <workItem from="1678796894511" duration="14935000" />
     </task>
     <servers />
   </component>
@@ -311,6 +334,11 @@
           <line>61</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/hw3/hw3_code/Robot.py</url>
+          <line>76</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -326,5 +354,6 @@
     <SUITE FILE_PATH="coverage/hw$HW1__2_.coverage" NAME="HW1_3 Coverage Results" MODIFIED="1676846311496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw1/Wet" />
     <SUITE FILE_PATH="coverage/hw$run_a.coverage" NAME="run_a Coverage Results" MODIFIED="1677452680708" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
     <SUITE FILE_PATH="coverage/hw$run_a_m1.coverage" NAME="run_a_m1 Coverage Results" MODIFIED="1677495808933" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
+    <SUITE FILE_PATH="coverage/hw$run_mp.coverage" NAME="run_mp Coverage Results" MODIFIED="1678835640745" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw3/hw3_code" />
   </component>
 </project>

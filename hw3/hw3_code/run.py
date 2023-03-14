@@ -3,6 +3,9 @@ from MapEnvironment import MapEnvironment
 from RRTMotionPlanner import RRTMotionPlanner
 from RRTInspectionPlanner import RRTInspectionPlanner
 
+import warnings
+warnings.simplefilter("ignore", RuntimeWarning)
+
 if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description='script for testing planners')

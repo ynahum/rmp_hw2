@@ -37,7 +37,7 @@ class Robot(object):
         curr_link_angle = 0
         prev_link_position = (0, 0)
         for i, link in enumerate(self.links):
-            curr_link_angle = self.compute_link_angle(prev_link_angle=curr_link_angle, given_angle=given_config[i])
+            curr_link_angle = self.compute_link_angle(link_angle=curr_link_angle, given_angle=given_config[i])
             joints_positions[i, 0] = prev_link_position[0] + link * np.cos(curr_link_angle)
             joints_positions[i, 1] = prev_link_position[1] + link * np.sin(curr_link_angle)
             prev_link_position = joints_positions[i]
@@ -73,14 +73,12 @@ class Robot(object):
         @param robot_positions Given links positions.
         '''
         # TODO: Task 2.2
-        arm_points = [(0, 0)]
-        arm_points += robot_positions
-        num_of_points = len(arm_points)
+        num_of_points = len(robot_positions)
         for i in range(num_of_points-2):
-            link1 = LineString(arm_points[i:i+2, :])
+            link1 = LineString(robot_positions[i:i+2, :])
             for j in range(i+1, num_of_points-1):
-                link2 = LineString(arm_points[j:j+2, :])
-                if link1.intersects(link2):
+                link2 = LineString(robot_positions[j:j+2, :])
+                if link1.intersects(link2) and not link1.touches(link2):
                     return False
         return True
     
