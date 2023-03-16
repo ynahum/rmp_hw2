@@ -4,8 +4,6 @@
     <list default="true" id="c8fde699-a938-4e5f-bf42-0617837b8e0d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw3/hw3_code/RRTMotionPlanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw3/hw3_code/RRTMotionPlanner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw3/hw3_code/Robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw3/hw3_code/Robot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw3/hw3_code/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw3/hw3_code/run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +185,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw3/hw3_code/run.py" />
-      <option name="PARAMETERS" value="-map map_mp.json -task mp -ext_mode E1 -goal_prob 0.2" />
+      <option name="PARAMETERS" value="-map map_mp.json -task mp -ext_mode E1 -goal_prob 0.05" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -303,7 +301,8 @@
       <workItem from="1678225609605" duration="3306000" />
       <workItem from="1678265259299" duration="1398000" />
       <workItem from="1678266708255" duration="7833000" />
-      <workItem from="1678796894511" duration="14935000" />
+      <workItem from="1678796894511" duration="15070000" />
+      <workItem from="1679006085555" duration="682000" />
     </task>
     <servers />
   </component>
@@ -354,6 +353,6 @@
     <SUITE FILE_PATH="coverage/hw$HW1__2_.coverage" NAME="HW1_3 Coverage Results" MODIFIED="1676846311496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw1/Wet" />
     <SUITE FILE_PATH="coverage/hw$run_a.coverage" NAME="run_a Coverage Results" MODIFIED="1677452680708" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
     <SUITE FILE_PATH="coverage/hw$run_a_m1.coverage" NAME="run_a_m1 Coverage Results" MODIFIED="1677495808933" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw2/hw2_code" />
-    <SUITE FILE_PATH="coverage/hw$run_mp.coverage" NAME="run_mp Coverage Results" MODIFIED="1678835640745" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw3/hw3_code" />
+    <SUITE FILE_PATH="coverage/hw$run_mp.coverage" NAME="run_mp Coverage Results" MODIFIED="1679006436141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw3/hw3_code" />
   </component>
 </project>

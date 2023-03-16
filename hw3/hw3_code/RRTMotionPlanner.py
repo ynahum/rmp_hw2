@@ -16,7 +16,7 @@ class RRTMotionPlanner(object):
         self.goal_prob = goal_prob
         self.eta = 0.5
 
-        self.num_of_runs_for_average = 1
+        self.num_of_runs_for_average = 10
         self.Robot = Robot.Robot()
 
     def plan(self):
@@ -36,6 +36,9 @@ class RRTMotionPlanner(object):
 
         sum_cost = 0
         sum_time = 0
+        best_cost = 10000
+        best_plan = []
+
         for run_idx in range(self.num_of_runs_for_average):
 
             start_time = time.time()
@@ -87,6 +90,9 @@ class RRTMotionPlanner(object):
             print('Total time (run {}): {:.2f}'.format(run_idx, run_time))
             sum_cost += cost
             sum_time += run_time
+            if cost < best_cost:
+                best_cost = cost
+                best_plan = plan[:]
         avg_cost = sum_cost/self.num_of_runs_for_average
         avg_time = sum_time/self.num_of_runs_for_average
         print('Calc plan for:')
@@ -94,10 +100,12 @@ class RRTMotionPlanner(object):
         print(f'Extend mode: {self.ext_mode}')
         if self.ext_mode == 'E2':
             print(f'eta: {self.eta}')
+
+        print('Best plan cost: {:.2f}'.format(best_cost))
         print('Avg cost of path: {:.2f}'.format(avg_cost))
         print('Avg time: {:.2f}'.format(avg_time))
 
-        return np.array(plan)
+        return np.array(best_plan)
 
 
     def compute_cost(self, plan):
