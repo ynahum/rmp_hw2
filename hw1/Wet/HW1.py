@@ -152,7 +152,9 @@ class VisibilityGraph:
     def get_vertex(self, id):
         return self.vertices[id]
 
-def get_visibility_graph(obstacles: List[Polygon], source=None, dest=None) -> tuple[List[LineString], VisibilityGraph]:
+current_vg = None
+
+def get_visibility_graph(obstacles: List[Polygon], source=None, dest=None) -> tuple[List[LineString]]:
     """
     Get The visibility graph of a given map
     :param obstacles: A list of the obstacles in the map
@@ -160,8 +162,9 @@ def get_visibility_graph(obstacles: List[Polygon], source=None, dest=None) -> tu
     :param dest: The destination of the query. None for part 1.
     :return: A list of LineStrings holding the edges of the visibility graph
     """
-    vg = VisibilityGraph(obstacles, source, dest)
-    return vg.get_edges(), vg
+    global current_vg
+    current_vg = VisibilityGraph(obstacles, source, dest)
+    return current_vg.get_edges()
 
 
 def calc_edge_cost(u, v):
@@ -265,7 +268,7 @@ if __name__ == '__main__':
 
     # step 2:
 
-    lines, _ = get_visibility_graph(c_space_obstacles)
+    lines = get_visibility_graph(c_space_obstacles)
     plotter2 = Plotter()
 
     plotter2.add_obstacles(workspace_obstacles)
@@ -279,9 +282,9 @@ if __name__ == '__main__':
     with open(query, 'r') as f:
         dest = tuple(map(float, f.readline().split(',')))
 
-    lines, vg = get_visibility_graph(c_space_obstacles, source, dest)
+    lines = get_visibility_graph(c_space_obstacles, source, dest)
     #TODO: fill in the next line
-    shortest_path, cost = vg_dijkstra(vg)
+    shortest_path, cost = vg_dijkstra(current_vg)
 
     plotter3 = Plotter()
     plotter3.add_robot(source, dist)
