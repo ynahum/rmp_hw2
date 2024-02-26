@@ -2,7 +2,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 eps = np.array([0.2, 0.1, 0.01])
-d = np.arange(2,10)
+d = np.arange(2, 11)
 
 fig = plt.figure()
 gs = fig.add_gridspec(3, hspace=0.4)

@@ -5,7 +5,7 @@ import time
 
 class RRTPlanner(object):
 
-    def __init__(self, planning_env, ext_mode, goal_prob, num_of_runs_for_average=1, eta=0.7):
+    def __init__(self, planning_env, ext_mode, goal_prob, num_of_runs_for_average=1, eta=20):
 
         # set environment and search tree
         self.planning_env = planning_env
@@ -103,9 +103,8 @@ class RRTPlanner(object):
         '''
         # TODO: Task 4.4
         cost = 0
-        env = self.planning_env
         for idx in range(len(plan)-1):
-            cost += env.compute_distance(start_state=plan[idx], end_state=plan[idx+1])
+            cost += self.planning_env.compute_distance(start_state=plan[idx], end_state=plan[idx+1])
         return cost
 
     def extend(self, near_state, rand_state):
@@ -119,6 +118,13 @@ class RRTPlanner(object):
         if self.ext_mode == 'E1':
             return rand_state
         elif self.ext_mode == 'E2':
-            return near_state + self.eta * (rand_state - near_state)
+            diff_vector = (rand_state - near_state)
+            diff_vector_norm = self.planning_env.compute_distance(start_state=rand_state, end_state=near_state)
+            unit_direction_vector = diff_vector / diff_vector_norm
+
+            new_point = rand_state
+            if self.eta < diff_vector_norm:
+                new_point = near_state + self.eta * unit_direction_vector
+            return new_point
         else:
             assert 0

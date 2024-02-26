@@ -1,0 +1,109 @@
+C:\Users\ynahum\Anaconda3\envs\deep_learn\python.exe "C:\Users\ynahum\OneDrive - Intel Corporation\Personal-ynahum-MOBL\studies\master\courses\236901_algo_motion_plan\hw\hw2\hw2_code\run.py" -map map2.json -planner rrt -ext_mode E2 -goal_prob 0.2 
+Total cost of path (run 0): 512.45
+Total time (run 0): 4.51
+Total cost of path (run 1): 445.07
+Total time (run 1): 2.69
+Total cost of path (run 2): 621.46
+Total time (run 2): 7.39
+Total cost of path (run 3): 536.30
+Total time (run 3): 2.07
+Total cost of path (run 4): 516.47
+Total time (run 4): 12.98
+Total cost of path (run 5): 561.32
+Total time (run 5): 2.43
+Total cost of path (run 6): 481.56
+Total time (run 6): 1.55
+Total cost of path (run 7): 461.10
+Total time (run 7): 1.43
+Total cost of path (run 8): 506.78
+Total time (run 8): 4.49
+Total cost of path (run 9): 575.00
+Total time (run 9): 7.13
+Total cost of path (run 10): 501.21
+Total time (run 10): 1.44
+Total cost of path (run 11): 548.75
+Total time (run 11): 3.86
+Total cost of path (run 12): 540.11
+Total time (run 12): 3.60
+Total cost of path (run 13): 551.80
+Total time (run 13): 2.48
+Total cost of path (run 14): 482.25
+Total time (run 14): 1.96
+Total cost of path (run 15): 539.91
+Total time (run 15): 1.69
+Total cost of path (run 16): 451.51
+Total time (run 16): 2.42
+Total cost of path (run 17): 570.65
+Total time (run 17): 3.96
+Total cost of path (run 18): 535.16
+Total time (run 18): 4.06
+Total cost of path (run 19): 488.37
+Total time (run 19): 1.13
+Total cost of path (run 20): 514.36
+Total time (run 20): 2.00
+Total cost of path (run 21): 444.03
+Total time (run 21): 0.51
+Total cost of path (run 22): 542.84
+Total time (run 22): 3.70
+Total cost of path (run 23): 466.01
+Total time (run 23): 0.89
+Total cost of path (run 24): 604.43
+Total time (run 24): 2.55
+Total cost of path (run 25): 509.10
+Total time (run 25): 5.90
+Total cost of path (run 26): 563.25
+Total time (run 26): 2.31
+Total cost of path (run 27): 449.60
+Total time (run 27): 2.80
+Total cost of path (run 28): 484.61
+Total time (run 28): 6.86
+Total cost of path (run 29): 426.27
+Total time (run 29): 1.36
+Total cost of path (run 30): 549.80
+Total time (run 30): 1.47
+Total cost of path (run 31): 475.86
+Total time (run 31): 1.67
+Total cost of path (run 32): 475.05
+Total time (run 32): 0.57
+Total cost of path (run 33): 440.34
+Total time (run 33): 2.08
+Total cost of path (run 34): 537.73
+Total time (run 34): 0.54
+Total cost of path (run 35): 511.06
+Total time (run 35): 2.09
+Total cost of path (run 36): 488.08
+Total time (run 36): 4.27
+Total cost of path (run 37): 549.72
+Total time (run 37): 1.50
+Total cost of path (run 38): 507.32
+Total time (run 38): 1.02
+Total cost of path (run 39): 539.63
+Total time (run 39): 5.12
+Total cost of path (run 40): 416.17
+Total time (run 40): 2.80
+Total cost of path (run 41): 597.43
+Total time (run 41): 2.98
+Total cost of path (run 42): 538.89
+Total time (run 42): 2.31
+Total cost of path (run 43): 492.56
+Total time (run 43): 11.73
+Total cost of path (run 44): 454.13
+Total time (run 44): 1.64
+Total cost of path (run 45): 511.25
+Total time (run 45): 3.96
+Total cost of path (run 46): 516.54
+Total time (run 46): 3.93
+Total cost of path (run 47): 557.04
+Total time (run 47): 2.81
+Total cost of path (run 48): 514.61
+Total time (run 48): 2.13
+Total cost of path (run 49): 571.76
+Total time (run 49): 4.94
+Calc plan for:
+Goal prob: 0.2
+Extend mode: E2
+eta: 20
+Avg cost of path: 513.53
+Avg time: 3.23
+
+Process finished with exit code 0
