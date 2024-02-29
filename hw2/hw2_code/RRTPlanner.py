@@ -5,7 +5,7 @@ import time
 
 class RRTPlanner(object):
 
-    def __init__(self, planning_env, ext_mode, goal_prob, num_of_runs_for_average=1, eta=20):
+    def __init__(self, planning_env, ext_mode, goal_prob, num_of_runs_for_average=1, eta=8):
 
         # set environment and search tree
         self.planning_env = planning_env

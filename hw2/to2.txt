@@ -1,0 +1,236 @@
+run planner w/ timeout = 2
+Total cost of path (run 9): 389.36
+Total time (run 9): 2.01
+Best plan cost: 389.36
+Avg cost of path: 389.36
+Avg time: 2.01
+timeout 2
+success rate 0.1
+Goal prob: 0.2
+k is log(i)
+Extend mode: E2
+eta: 20
+run planner w/ timeout = 4
+Total cost of path (run 3): 363.43
+Total time (run 3): 4.01
+Total cost of path (run 4): 369.77
+Total time (run 4): 4.01
+Total cost of path (run 8): 415.27
+Total time (run 8): 4.01
+Best plan cost: 363.43
+Avg cost of path: 382.82
+Avg time: 4.01
+timeout 4
+success rate 0.3
+Goal prob: 0.2
+k is log(i)
+Extend mode: E2
+eta: 20
+run planner w/ timeout = 6
+Total cost of path (run 2): 361.88
+Total time (run 2): 6.00
+Total cost of path (run 4): 378.97
+Total time (run 4): 6.00
+Total cost of path (run 5): 403.11
+Total time (run 5): 6.01
+Total cost of path (run 6): 357.17
+Total time (run 6): 6.02
+Total cost of path (run 7): 362.09
+Total time (run 7): 6.01
+Total cost of path (run 8): 364.43
+Total time (run 8): 6.00
+Total cost of path (run 9): 403.39
+Total time (run 9): 6.01
+Best plan cost: 357.17
+Avg cost of path: 375.86
+Avg time: 6.01
+timeout 6
+success rate 0.7
+Goal prob: 0.2
+k is log(i)
+Extend mode: E2
+eta: 20
+run planner w/ timeout = 8
+Total cost of path (run 0): 362.20
+Total time (run 0): 8.02
+Total cost of path (run 1): 354.96
+Total time (run 1): 8.02
+Total cost of path (run 2): 374.09
+Total time (run 2): 8.01
+Total cost of path (run 4): 352.11
+Total time (run 4): 8.01
+Total cost of path (run 7): 356.48
+Total time (run 7): 8.00
+Total cost of path (run 8): 389.56
+Total time (run 8): 8.02
+Total cost of path (run 9): 353.10
+Total time (run 9): 8.03
+Best plan cost: 352.11
+Avg cost of path: 363.22
+Avg time: 8.02
+timeout 8
+success rate 0.7
+Goal prob: 0.2
+k is log(i)
+Extend mode: E2
+eta: 20
+run planner w/ timeout = 10
+Total cost of path (run 2): 371.65
+Total time (run 2): 10.02
+Total cost of path (run 3): 359.47
+Total time (run 3): 10.02
+Total cost of path (run 4): 356.65
+Total time (run 4): 10.00
+Total cost of path (run 5): 375.28
+Total time (run 5): 10.01
+Total cost of path (run 6): 381.09
+Total time (run 6): 10.01
+Total cost of path (run 7): 365.12
+Total time (run 7): 10.01
+Total cost of path (run 9): 371.30
+Total time (run 9): 10.01
+Best plan cost: 356.65
+Avg cost of path: 368.65
+Avg time: 10.01
+timeout 10
+success rate 0.7
+Goal prob: 0.2
+k is log(i)
+Extend mode: E2
+eta: 20
+run planner w/ timeout = 12
+Total cost of path (run 0): 365.64
+Total time (run 0): 12.02
+Total cost of path (run 2): 363.72
+Total time (run 2): 12.01
+Total cost of path (run 4): 372.31
+Total time (run 4): 12.01
+Total cost of path (run 5): 360.69
+Total time (run 5): 12.01
+Total cost of path (run 6): 364.27
+Total time (run 6): 12.02
+Total cost of path (run 9): 353.27
+Total time (run 9): 12.01
+Best plan cost: 353.27
+Avg cost of path: 363.32
+Avg time: 12.01
+timeout 12
+success rate 0.6
+Goal prob: 0.2
+k is log(i)
+Extend mode: E2
+eta: 20
+run planner w/ timeout = 14
+Total cost of path (run 0): 388.04
+Total time (run 0): 14.01
+Total cost of path (run 1): 364.08
+Total time (run 1): 14.01
+Total cost of path (run 2): 356.33
+Total time (run 2): 14.01
+Total cost of path (run 3): 380.35
+Total time (run 3): 14.01
+Total cost of path (run 4): 362.38
+Total time (run 4): 14.03
+Total cost of path (run 5): 362.01
+Total time (run 5): 14.02
+Total cost of path (run 6): 359.11
+Total time (run 6): 14.02
+Total cost of path (run 7): 370.93
+Total time (run 7): 14.02
+Total cost of path (run 8): 367.57
+Total time (run 8): 14.02
+Best plan cost: 356.33
+Avg cost of path: 367.87
+Avg time: 14.02
+timeout 14
+success rate 0.9
+Goal prob: 0.2
+k is log(i)
+Extend mode: E2
+eta: 20
+run planner w/ timeout = 16
+Total cost of path (run 0): 364.13
+Total time (run 0): 16.02
+Total cost of path (run 1): 361.54
+Total time (run 1): 16.01
+Total cost of path (run 2): 382.65
+Total time (run 2): 16.01
+Total cost of path (run 3): 358.90
+Total time (run 3): 16.03
+Total cost of path (run 4): 394.80
+Total time (run 4): 16.00
+Total cost of path (run 5): 359.40
+Total time (run 5): 16.02
+Total cost of path (run 6): 378.18
+Total time (run 6): 16.02
+Total cost of path (run 8): 358.69
+Total time (run 8): 16.02
+Total cost of path (run 9): 355.24
+Total time (run 9): 16.03
+Best plan cost: 355.24
+Avg cost of path: 368.17
+Avg time: 16.02
+timeout 16
+success rate 0.9
+Goal prob: 0.2
+k is log(i)
+Extend mode: E2
+eta: 20
+run planner w/ timeout = 18
+Total cost of path (run 0): 385.18
+Total time (run 0): 18.03
+Total cost of path (run 1): 383.17
+Total time (run 1): 18.01
+Total cost of path (run 2): 380.67
+Total time (run 2): 18.03
+Total cost of path (run 3): 357.64
+Total time (run 3): 18.01
+Total cost of path (run 4): 380.43
+Total time (run 4): 18.01
+Total cost of path (run 5): 369.78
+Total time (run 5): 18.02
+Total cost of path (run 6): 392.49
+Total time (run 6): 18.02
+Total cost of path (run 7): 385.55
+Total time (run 7): 18.05
+Total cost of path (run 8): 357.67
+Total time (run 8): 18.02
+Total cost of path (run 9): 361.46
+Total time (run 9): 18.02
+Best plan cost: 357.64
+Avg cost of path: 375.41
+Avg time: 18.02
+timeout 18
+success rate 1.0
+Goal prob: 0.2
+k is log(i)
+Extend mode: E2
+eta: 20
+run planner w/ timeout = 20
+Total cost of path (run 1): 407.97
+Total time (run 1): 20.01
+Total cost of path (run 2): 359.27
+Total time (run 2): 20.03
+Total cost of path (run 3): 352.08
+Total time (run 3): 20.01
+Total cost of path (run 4): 362.68
+Total time (run 4): 20.03
+Total cost of path (run 5): 356.19
+Total time (run 5): 20.02
+Total cost of path (run 6): 379.89
+Total time (run 6): 20.01
+Total cost of path (run 7): 352.46
+Total time (run 7): 20.02
+Total cost of path (run 8): 360.62
+Total time (run 8): 20.03
+Total cost of path (run 9): 362.11
+Total time (run 9): 20.03
+Best plan cost: 352.08
+Avg cost of path: 365.92
+Avg time: 20.02
+timeout 20
+success rate 0.9
+Goal prob: 0.2
+k is log(i)
+Extend mode: E2
+eta: 20

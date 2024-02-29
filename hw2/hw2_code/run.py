@@ -1,4 +1,7 @@
 import argparse
+
+import numpy as np
+
 from MapEnvironment import MapEnvironment
 from RRTPlanner import RRTPlanner
 from RRTStarPlanner import RRTStarPlanner
@@ -22,15 +25,19 @@ if __name__ == "__main__":
         planner = AStarPlanner(planning_env=planning_env)
     elif args.planner == 'rrt':
         planner = RRTPlanner(planning_env=planning_env, ext_mode=args.ext_mode,
-                             goal_prob=args.goal_prob, num_of_runs_for_average=50, eta=9)
+                             goal_prob=args.goal_prob, num_of_runs_for_average=50, eta=20)
     elif args.planner == 'rrtstar':
         planner = RRTStarPlanner(planning_env=planning_env, ext_mode=args.ext_mode,
-                                 goal_prob=args.goal_prob, k=args.k, num_of_runs_for_average=20)
+                                 goal_prob=args.goal_prob, k=args.k, num_of_runs_for_average=10, eta=20, timeout=15)
     else:
-        raise ValueError('Unknown planner option: %s' % args.planner);
+        raise ValueError('Unknown planner option: %s' % args.planner)
 
     # execute plan
-    plan = planner.plan()
+    timeouts = np.arange(start=20, stop=22, step=2)
+    for to in timeouts:
+        planner.timeout = to
+        print(f"run planner w/ timeout = {to}")
+        plan = planner.plan()
 
     # visualize the final path with edges or states according to the requested planner.
     if args.planner == 'astar':

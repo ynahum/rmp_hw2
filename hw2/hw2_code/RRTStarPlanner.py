@@ -5,7 +5,7 @@ import time
 
 class RRTStarPlanner(object):
 
-    def __init__(self, planning_env, ext_mode, goal_prob, k, num_of_runs_for_average=1, eta=0.7):
+    def __init__(self, planning_env, ext_mode, goal_prob, k, num_of_runs_for_average=1, eta=8, timeout=None):
 
         # set environment and search tree
         self.planning_env = planning_env
@@ -21,6 +21,7 @@ class RRTStarPlanner(object):
             self.const_k = True
         self.eta = eta
         self.num_of_runs_for_average = num_of_runs_for_average
+        self.timeout = timeout
 
     def get_knn(self, new_state):
         if self.k >= len(self.tree.vertices):
@@ -57,7 +58,8 @@ class RRTStarPlanner(object):
 
     def plots(self, run_times, costs):
         num_of_runs = len(run_times)
-        t = np.arange(start=0, stop=50)
+        max_t = int(np.max(run_times))+1
+        t = np.arange(start=0, stop=max_t)
         run_times_np_arr = np.array(run_times)
         run_time_sorted_indices = np.argsort(run_times_np_arr)
         run_times_sorted = run_times_np_arr[run_time_sorted_indices]
@@ -113,6 +115,7 @@ class RRTStarPlanner(object):
         best_cost = 10000
         best_plan = []
         run_times = []
+        successes = 0
         costs = []
         sum_cost = 0
         sum_time = 0
@@ -124,7 +127,7 @@ class RRTStarPlanner(object):
             self.tree = RRTTree(env)
             self.tree.add_vertex(state=start_state)
 
-            while not self.tree.is_goal_exists(state=goal_state):
+            while True:
 
                 # 1. sample
                 if np.random.rand() < self.goal_prob:
@@ -158,32 +161,48 @@ class RRTStarPlanner(object):
                     for nn_id in knn_id_valids:
                         self.rewire(self.tree.vertices[new_id], self.tree.vertices[nn_id])
 
-            # get plan
-            curr_state_id = self.tree.get_idx_for_state(state=goal_state)
-            while curr_state_id != self.tree.get_root_id():
+                if self.timeout is not None:
+                    if time.time()-start_time > self.timeout:
+                        break
+                elif self.tree.is_goal_exists(state=goal_state):
+                    break
+            if self.tree.is_goal_exists(state=goal_state):
+                # get plan
+                curr_state_id = self.tree.get_idx_for_state(state=goal_state)
+                while curr_state_id != self.tree.get_root_id():
+                    curr_state = self.tree.vertices[curr_state_id].state
+                    plan.append(curr_state)
+                    curr_state_id = self.tree.edges[curr_state_id]
                 curr_state = self.tree.vertices[curr_state_id].state
                 plan.append(curr_state)
-                curr_state_id = self.tree.edges[curr_state_id]
-            curr_state = self.tree.vertices[curr_state_id].state
-            plan.append(curr_state)
-            plan.reverse()
+                plan.reverse()
 
-            # print total path cost and time
-            cost = self.compute_cost(plan)
-            run_time = time.time() - start_time
-            run_times.append(run_time)
-            costs.append(cost)
-            print('Total cost of path (run {}): {:.2f}'.format(run_idx, cost))
-            print('Total time (run {}): {:.2f}'.format(run_idx, run_time))
-            sum_cost += cost
-            sum_time += run_time
-            if cost < best_cost:
-                best_cost = cost
-                best_plan = plan[:]
-        self.plots(run_times, costs)
-        avg_cost = sum_cost/ self.num_of_runs_for_average
-        avg_time = sum_time/ self.num_of_runs_for_average
-        print('Calc plan for:')
+                successes += 1
+
+                # print total path cost and time
+                cost = self.compute_cost(plan)
+                run_time = time.time() - start_time
+                run_times.append(run_time)
+                costs.append(cost)
+                print('Total cost of path (run {}): {:.2f}'.format(run_idx, cost))
+                print('Total time (run {}): {:.2f}'.format(run_idx, run_time))
+                sum_cost += cost
+                sum_time += run_time
+                if cost < best_cost:
+                    best_cost = cost
+                    best_plan = plan[:]
+
+        #self.plots(run_times, costs)
+        if successes > 0:
+            avg_cost = sum_cost / successes
+            avg_time = sum_time / successes
+            success_rate = successes / self.num_of_runs_for_average
+            print('Best plan cost: {:.2f}'.format(best_cost))
+            print('Avg cost of path: {:.2f}'.format(avg_cost))
+            print('Avg time: {:.2f}'.format(avg_time))
+        if self.timeout is not None:
+            print(f"timeout {self.timeout}")
+        print(f"success rate {success_rate}")
         print(f'Goal prob: {self.goal_prob}')
         if self.const_k is True:
             print(f'const k: {self.k}')
@@ -193,9 +212,6 @@ class RRTStarPlanner(object):
         if self.ext_mode == 'E2':
             print(f'eta: {self.eta}')
 
-        print('Best plan cost: {:.2f}'.format(best_cost))
-        print('Avg cost of path: {:.2f}'.format(avg_cost))
-        print('Avg time: {:.2f}'.format(avg_time))
 
         return np.array(best_plan)
 
@@ -206,9 +222,8 @@ class RRTStarPlanner(object):
         '''
         # TODO: Task 4.4
         cost = 0
-        env = self.planning_env
         for idx in range(len(plan)-1):
-            cost += env.compute_distance(start_state=plan[idx], end_state=plan[idx+1])
+            cost += self.planning_env.compute_distance(start_state=plan[idx], end_state=plan[idx+1])
         return cost
 
     def extend(self, near_state, rand_state):
@@ -222,7 +237,20 @@ class RRTStarPlanner(object):
         if self.ext_mode == 'E1':
             return rand_state
         elif self.ext_mode == 'E2':
-            return near_state + self.eta * (rand_state - near_state)
+            diff_vector = (rand_state - near_state)
+            diff_vector_norm = self.planning_env.compute_distance(start_state=rand_state, end_state=near_state)
+            if np.isclose(diff_vector_norm, 0):
+                # Handle the case where diff_vector_norm is zero or very small
+                # You can set the direction vector to a default value or use a fallback strategy
+                unit_direction_vector = np.zeros_like(diff_vector)  # Default: Zero vector
+            else:
+                # Calculate the direction vector
+                unit_direction_vector = diff_vector / diff_vector_norm
+
+            new_point = rand_state
+            if self.eta < diff_vector_norm:
+                new_point = near_state + self.eta * unit_direction_vector
+            return new_point
         else:
             assert 0
     
