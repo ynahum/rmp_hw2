@@ -227,8 +227,17 @@ class MapEnvironment(object):
         @param points2 list of inspected points.
         '''
         # TODO: Task 2.4
-
-        pass
+        #print(f"p1={points1}")
+        #print(f"p2={points2}")
+        if len(points1) == 0:
+            union_array = points2
+        elif len(points2) == 0:
+            union_array = points1
+        else:
+            stacked_array = np.vstack((points1, points2))
+            union_array = np.unique(stacked_array, axis=0)
+        #print(f"u={union_array}")
+        return union_array
 
     def compute_coverage(self, inspected_points):
         '''
