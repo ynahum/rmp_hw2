@@ -446,6 +446,8 @@ class MapEnvironment(object):
             canvas.draw()
             data = np.fromstring(canvas.tostring_rgb(), dtype=np.uint8, sep='')
             data = data.reshape(canvas.get_width_height()[::-1] + (3,))
+            #pic_time = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
+            #imageio.imwrite(f"out/{i}_{pic_time}.jpeg", data)
             plan_images.append(data)
         
         # store gif

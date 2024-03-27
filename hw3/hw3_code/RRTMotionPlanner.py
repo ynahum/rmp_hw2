@@ -14,9 +14,14 @@ class RRTMotionPlanner(object):
         # set search params
         self.ext_mode = ext_mode
         self.goal_prob = goal_prob
-        self.eta = 0.5
+        self.eta = 0.35
 
-        self.num_of_runs_for_average = 10
+        # after some tuning
+        if self.goal_prob == 0.05:
+            self.eta = 0.35
+        if self.goal_prob == 0.2:
+            self.eta = 0.2
+
         self.Robot = Robot.Robot()
 
     def plan(self):
@@ -34,15 +39,16 @@ class RRTMotionPlanner(object):
         start_state = env.start
         goal_state = env.goal
 
+        num_of_runs_for_average = 1
+
         sum_cost = 0
         sum_time = 0
-        best_cost = 10000
-        best_plan = []
+        min_cost = 10000
 
-        for run_idx in range(self.num_of_runs_for_average):
+        for run_idx in range(num_of_runs_for_average):
 
             start_time = time.time()
-            plan = []
+            cur_plan = []
 
             self.tree = RRTTree(env)
             self.tree.add_vertex(config=start_state)
@@ -77,35 +83,35 @@ class RRTMotionPlanner(object):
             curr_state_id = self.tree.get_idx_for_config(config=goal_state)
             while curr_state_id != self.tree.get_root_id():
                 curr_state = self.tree.vertices[curr_state_id].config
-                plan.append(curr_state)
+                cur_plan.append(curr_state)
                 curr_state_id = self.tree.edges[curr_state_id]
             curr_state = self.tree.vertices[curr_state_id].config
-            plan.append(curr_state)
-            plan.reverse()
+            cur_plan.append(curr_state)
+            cur_plan.reverse()
 
             # print total path cost and time
-            cost = self.compute_cost(plan)
+            cur_cost = self.compute_cost(cur_plan)
             run_time = time.time() - start_time
-            print('Total cost of path (run {}): {:.2f}'.format(run_idx, cost))
+            print('Total cost of path (run {}): {:.2f}'.format(run_idx, cur_cost))
             print('Total time (run {}): {:.2f}'.format(run_idx, run_time))
-            sum_cost += cost
+            sum_cost += cur_cost
             sum_time += run_time
-            if cost < best_cost:
-                best_cost = cost
-                best_plan = plan[:]
-        avg_cost = sum_cost/self.num_of_runs_for_average
-        avg_time = sum_time/self.num_of_runs_for_average
+            if cur_cost < min_cost:
+                min_cost = cur_cost
+                plan = cur_plan[:]
+        avg_cost = sum_cost/num_of_runs_for_average
+        avg_time = sum_time/num_of_runs_for_average
         print('Calc plan for:')
         print(f'Goal prob: {self.goal_prob}')
         print(f'Extend mode: {self.ext_mode}')
         if self.ext_mode == 'E2':
             print(f'eta: {self.eta}')
 
-        print('Best plan cost: {:.2f}'.format(best_cost))
+        print('Best plan cost: {:.2f}'.format(min_cost))
         print('Avg cost of path: {:.2f}'.format(avg_cost))
         print('Avg time: {:.2f}'.format(avg_time))
 
-        return np.array(best_plan)
+        return np.array(plan)
 
 
     def compute_cost(self, plan):
@@ -130,6 +136,19 @@ class RRTMotionPlanner(object):
         if self.ext_mode == 'E1':
             return rand_config
         elif self.ext_mode == 'E2':
-            return near_config + self.eta * (rand_config - near_config)
+            diff_vector = (rand_config - near_config)
+            diff_vector_norm = self.Robot.compute_distance(rand_config, near_config)
+            if np.isclose(diff_vector_norm, 0):
+                # Handle the case where diff_vector_norm is zero or very small
+                # You can set the direction vector to a default value or use a fallback strategy
+                unit_direction_vector = np.zeros_like(diff_vector)  # Default: Zero vector
+            else:
+                # Calculate the direction vector
+                unit_direction_vector = diff_vector / diff_vector_norm
+
+            new_point = rand_config
+            if self.eta < diff_vector_norm:
+                new_point = near_config + self.eta * unit_direction_vector
+            return new_point
         else:
             assert 0
