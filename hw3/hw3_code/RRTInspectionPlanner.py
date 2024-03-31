@@ -39,11 +39,11 @@ class RRTInspectionPlanner(object):
         env = self.planning_env
         start_config = env.start
 
-        num_of_runs_for_average = 1
+        num_of_runs_for_average = 10
 
         sum_cost = 0
         sum_time = 0
-        min_cost = 10000
+        min_cost = np.inf
 
         for run_idx in range(num_of_runs_for_average):
 
@@ -53,13 +53,24 @@ class RRTInspectionPlanner(object):
             start_config_poi = env.get_inspected_points(config=start_config)
             self.tree.add_vertex(start_config, start_config_poi)
 
+            is_new_milestone_detected = False
+            num_of_near_milestone_config_checks = 10
+            near_milestone_config_checks_count = 0
+            milestones = []
+
             while self.tree.max_coverage < self.coverage:
             
                 # 1. sample
-                if np.random.rand() < self.goal_prob:
-                    rand_state = self.get_poi_biased_config()
+                if is_new_milestone_detected:
+                    near_milestone_config_checks_count += 1
+                    rand_state = self.get_near_milestone_config(milestones[-1])
+                    if near_milestone_config_checks_count == num_of_near_milestone_config_checks:
+                        is_new_milestone_detected = False
+                elif np.random.rand() < self.goal_prob:
+                    rand_state = self.get_poi_biased_config(milestones)
                 else:
                     rand_state = self.get_random_config()
+
                 # 2. get nearest neighbor on the existing tree
                 [near_id, near_state] = self.tree.get_nearest_config(config=rand_state)
 
@@ -75,6 +86,10 @@ class RRTInspectionPlanner(object):
                     new_id = self.tree.add_vertex(config=new_state, inspected_points=unified_poi)
                     dist = self.Robot.compute_distance(prev_config=near_state, next_config=new_state)
                     self.tree.add_edge(sid=near_id, eid=new_id, edge_cost=dist)
+                    if len(unified_poi) > len(tree_near_poi):
+                        is_new_milestone_detected = True
+                        near_milestone_config_checks_count = 0
+                        milestones.append(new_state)
 
             curr_id = self.tree.max_coverage_id
             cur_plan.append(self.tree.vertices[curr_id].config)
@@ -118,8 +133,21 @@ class RRTInspectionPlanner(object):
                       np.random.uniform(min_angle, max_angle)])
         return rand_config
 
-    def get_poi_biased_config(self):
-        return self.get_random_config()
+    def get_near_milestone_config(self, milestone_config):
+        close_config = np.array([np.random.uniform(milestone_config[0] - np.pi/16, milestone_config[0] + np.pi/16),
+                                 np.random.uniform(milestone_config[1] - np.pi/12, milestone_config[1] + np.pi/12),
+                                 np.random.uniform(milestone_config[2] - np.pi/8, milestone_config[2] + np.pi/8),
+                                 np.random.uniform(milestone_config[3] - np.pi/4, milestone_config[3] + np.pi/4)])
+        return close_config
+
+    def get_poi_biased_config(self, milestones):
+        if len(milestones) > 0:
+            random_int = np.random.randint(0, len(milestones))
+            milestone = milestones[random_int]
+            close_config = self.get_near_milestone_config(milestone)
+            return close_config
+        else:
+            return self.get_random_config()
 
     def compute_cost(self, plan):
         '''
