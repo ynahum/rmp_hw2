@@ -1,0 +1,28 @@
+Total cost of path (run 0): 6.39
+Total time (run 0): 0.86
+Total cost of path (run 1): 5.95
+Total time (run 1): 0.76
+Total cost of path (run 2): 4.76
+Total time (run 2): 0.77
+Total cost of path (run 3): 4.59
+Total time (run 3): 1.21
+Total cost of path (run 4): 3.80
+Total time (run 4): 0.32
+Total cost of path (run 5): 4.88
+Total time (run 5): 0.60
+Total cost of path (run 6): 5.37
+Total time (run 6): 1.04
+Total cost of path (run 7): 5.23
+Total time (run 7): 0.68
+Total cost of path (run 8): 4.78
+Total time (run 8): 0.92
+Total cost of path (run 9): 3.52
+Total time (run 9): 0.60
+Calc plan for:
+Coverage: 0.5
+Goal prob: 0.05
+Extend mode: E2
+eta: 0.3
+Best plan cost: 3.52
+Avg cost of path: 4.93
+Avg time: 0.78

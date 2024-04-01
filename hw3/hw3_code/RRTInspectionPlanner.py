@@ -3,6 +3,7 @@ from RRTTree import RRTTree
 import time
 import Robot
 
+
 class RRTInspectionPlanner(object):
 
     def __init__(self, planning_env, ext_mode, goal_prob, coverage):
@@ -16,10 +17,13 @@ class RRTInspectionPlanner(object):
         self.goal_prob = goal_prob
         self.coverage = coverage
 
+        #self.goal_prob = 0.05
         self.eta = 0.35
         # after some tuning
         if self.goal_prob == 0.05:
-            self.eta = 0.35
+            self.eta = 0.3
+        if self.goal_prob == 0.1:
+            self.eta = 0.3
         if self.goal_prob == 0.2:
             self.eta = 0.2
 
