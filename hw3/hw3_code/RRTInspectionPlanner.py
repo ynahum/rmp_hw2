@@ -92,35 +92,38 @@ class RRTInspectionPlanner(object):
                         self.goal_prob = 0.5
                         #print(f"increase goal prob to {self.goal_prob}")
 
-                # 1. sample
+                # 1. sample, explore/exploit and goal bias heuristics
+
+                # if we have just found a milestone, use it to explore near by configurations
                 if is_new_milestone_detected:
                     near_milestone_config_checks_count += 1
                     rand_state = self.get_near_milestone_config(milestones[-1])
                     if near_milestone_config_checks_count == num_of_near_milestone_config_checks:
                         is_new_milestone_detected = False
+                # if we have just found an improving config vs its parent, use it to explore near by configurations
                 elif is_new_improving_config_detected and self.tree.max_coverage < 0.75:
                     near_improving_config_checks_count += 1
                     rand_state = self.get_near_milestone_config(improving[-1])
                     if near_improving_config_checks_count == num_of_near_improving_config_checks:
                         is_new_improving_config_detected = False
+                # use some heuristics for goal bias
                 elif np.random.rand() < self.goal_prob:
-                    #print(f"goal prob {self.goal_prob}")
                     if self.tree.max_coverage >= 0.75:
                         method_prob = np.random.rand()
+
+                        # calculate some center of mass of all detected POI and sample a configuration that
+                        # is in a square around it by running FK to check it. once found, we explore next to it
                         if enable_poi_com_explore and method_prob < 0.5:
                             if find_com_config:
                                 box_size = 10
                                 poi_com_x = np.mean(np.unique(max_poi[:, 0]))
                                 poi_com_y = np.mean(np.unique(max_poi[:, 1]))
-                                #print(f"poi_com_x = {poi_com_x}")
-                                #print(f"poi_com_y = {poi_com_y}")
                                 com_valid_config = self.get_poi_biased_config(milestones)
                                 found_com_valid_config = False
                                 for i in range(200):
                                     test_config = self.get_poi_biased_config(milestones)
                                     joints_loc = self.Robot.compute_forward_kinematics(test_config)
                                     ee_loc = joints_loc[-1]
-                                    #ee_orientation = np.sum(test_config)
                                     in_box_x = (ee_loc[0] < poi_com_x + box_size) and (ee_loc[0] > poi_com_x - box_size)
                                     in_box_y = (ee_loc[1] < poi_com_y + box_size) and (ee_loc[1] > poi_com_y - box_size)
                                     if in_box_x and in_box_y and env.config_validity_checker(config=test_config):
@@ -128,17 +131,8 @@ class RRTInspectionPlanner(object):
                                         found_com_valid_config = True
                                         break
                                 if found_com_valid_config:
-                                    #if np.random.rand() < 0.1:
-                                    #    print(f"max_coverage = {self.tree.max_coverage}")
-                                    #    print(f"found com valid config {com_valid_config}")
                                     find_com_config = False
                                     close_to_com_counter = 0
-                                    #print(f"found com valid config {com_valid_config}")
-                                    #print(f"poi_com_x = {poi_com_x}")
-                                    #print(f"poi_com_y = {poi_com_y}")
-                                else:
-                                    #print(f"didn't found com valid config")
-                                    pass
                                 rand_state = com_valid_config
                             else:
                                 close_to_com_counter += 1
@@ -149,6 +143,8 @@ class RRTInspectionPlanner(object):
                                 rand_state = self.get_near_poi_com_config(
                                     np.copy(com_valid_config), close_to_com_counter/close_to_com_counter_thresh)
 
+                        # calculate sum of config angles (the orientation of the EE) of milestones found
+                        # and try different configurations of mean, median, min or max of these configuration
                         elif enable_extreme_and_mean_config_focus:
                             sums = np.array([np.sum(arr) for arr in milestones])
                             max_sum_config = max(milestones, key=lambda array: np.sum(array))
@@ -162,16 +158,12 @@ class RRTInspectionPlanner(object):
 
                             prob = np.random.rand()
                             if prob < 0.25:
-                                #print(f" max_sum_config = {max_sum_config}")
                                 rand_state = self.get_near_milestone_config(max_sum_config, range_factor=3)
                             elif prob < 0.5:
-                                #print(f" median_sum_config = {median_sum_config}")
                                 rand_state = self.get_near_milestone_config(median_sum_config, range_factor=3)
                             elif prob < 0.75:
-                                #print(f" mean_sum_config = {mean_sum_config}")
                                 rand_state = self.get_near_milestone_config(mean_sum_config, range_factor=3)
                             else:
-                                #print(f" min_sum_config = {min_sum_config}")
                                 rand_state = self.get_near_milestone_config(min_sum_config, range_factor=3)
                         else:
                             rand_state = self.get_poi_biased_config(milestones)
@@ -201,10 +193,6 @@ class RRTInspectionPlanner(object):
                     if len(unified_poi) > max_poi_size:
                         max_poi_size = len(unified_poi)
                         max_poi = unified_poi
-                        #print(unified_poi)
-                        #print(f"len(unified_poi) {len(unified_poi)}")
-                        #print(f"len(tree_near_poi) {len(tree_near_poi)}")
-                        #print("new_milestone_detected")
                         is_new_milestone_detected = True
                         near_milestone_config_checks_count = 0
                         milestones.append(new_state)
