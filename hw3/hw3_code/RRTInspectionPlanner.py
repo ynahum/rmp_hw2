@@ -35,7 +35,7 @@ class RRTInspectionPlanner(object):
 
         num_of_runs_for_average = 1
 
-        average_runs_enable = False
+        average_runs_enable = True
         if average_runs_enable:
             num_of_runs_for_average = 10
 
@@ -51,6 +51,8 @@ class RRTInspectionPlanner(object):
                 self.eta = 0.3
             if self.goal_prob == 0.2:
                 self.eta = 0.2
+
+        timeout_seconds = 120
 
         sum_cost = 0
         sum_time = 0
@@ -81,13 +83,13 @@ class RRTInspectionPlanner(object):
             enable_poi_com_explore = True
             find_com_config = True
             close_to_com_counter = 0
-            close_to_com_counter_thresh = 10
+            close_to_com_counter_thresh = 18
 
             while self.tree.max_coverage < self.coverage:
 
                 if self.tree.max_coverage >= 0.75:
-                    if self.goal_prob != 0.7:
-                        self.goal_prob = 0.7
+                    if self.goal_prob != 0.5:
+                        self.goal_prob = 0.5
                         #print(f"increase goal prob to {self.goal_prob}")
 
                 # 1. sample
@@ -102,60 +104,70 @@ class RRTInspectionPlanner(object):
                     if near_improving_config_checks_count == num_of_near_improving_config_checks:
                         is_new_improving_config_detected = False
                 elif np.random.rand() < self.goal_prob:
-                    #if np.random.rand() < 0.1:
-                    #    print(f"max_coverage = {self.tree.max_coverage}")
                     #print(f"goal prob {self.goal_prob}")
-                    if enable_poi_com_explore and self.tree.max_coverage >= 0.8:
-                        if find_com_config:
-                            box_size = 30
-                            poi_com_x = np.mean(max_poi[:, 0])
-                            poi_com_y = np.mean(max_poi[:, 1])
-                            #print(f"poi_com_x = {poi_com_x}")
-                            #print(f"poi_com_y = {poi_com_y}")
-                            com_valid_config = self.get_poi_biased_config(milestones)
-                            found_com_valid_config = False
-                            for i in range(200):
-                                test_config = self.get_poi_biased_config(milestones)
-                                joints_loc = self.Robot.compute_forward_kinematics(test_config)
-                                ee_loc = joints_loc[-1]
-                                #ee_orientation = np.sum(test_config)
-                                in_box_x = (ee_loc[0] < poi_com_x + box_size) and (ee_loc[0] > poi_com_x - box_size)
-                                in_box_y = (ee_loc[1] < poi_com_y + box_size) and (ee_loc[1] > poi_com_y - box_size)
-                                if in_box_x and in_box_y and env.config_validity_checker(config=test_config):
-                                    com_valid_config = test_config
-                                    found_com_valid_config = True
-                                    break
-                            if found_com_valid_config:
-                                find_com_config = False
-                                close_to_com_counter = 0
-                                #print(f"found com valid config {com_valid_config}")
-                            rand_state = com_valid_config
-                        else:
-                            close_to_com_counter += 1
-                            if close_to_com_counter == close_to_com_counter_thresh:
-                                find_com_config = True
-                            rand_state = self.get_near_poi_com_config(com_valid_config,
-                                                                      close_to_com_counter/ close_to_com_counter_thresh)
+                    if self.tree.max_coverage >= 0.75:
+                        method_prob = np.random.rand()
+                        if enable_poi_com_explore and method_prob < 0.5:
+                            if find_com_config:
+                                box_size = 10
+                                poi_com_x = np.mean(np.unique(max_poi[:, 0]))
+                                poi_com_y = np.mean(np.unique(max_poi[:, 1]))
+                                #print(f"poi_com_x = {poi_com_x}")
+                                #print(f"poi_com_y = {poi_com_y}")
+                                com_valid_config = self.get_poi_biased_config(milestones)
+                                found_com_valid_config = False
+                                for i in range(200):
+                                    test_config = self.get_poi_biased_config(milestones)
+                                    joints_loc = self.Robot.compute_forward_kinematics(test_config)
+                                    ee_loc = joints_loc[-1]
+                                    #ee_orientation = np.sum(test_config)
+                                    in_box_x = (ee_loc[0] < poi_com_x + box_size) and (ee_loc[0] > poi_com_x - box_size)
+                                    in_box_y = (ee_loc[1] < poi_com_y + box_size) and (ee_loc[1] > poi_com_y - box_size)
+                                    if in_box_x and in_box_y and env.config_validity_checker(config=test_config):
+                                        com_valid_config = test_config
+                                        found_com_valid_config = True
+                                        break
+                                if found_com_valid_config:
+                                    #if np.random.rand() < 0.1:
+                                    #    print(f"max_coverage = {self.tree.max_coverage}")
+                                    #    print(f"found com valid config {com_valid_config}")
+                                    find_com_config = False
+                                    close_to_com_counter = 0
+                                    #print(f"found com valid config {com_valid_config}")
+                                    #print(f"poi_com_x = {poi_com_x}")
+                                    #print(f"poi_com_y = {poi_com_y}")
+                                else:
+                                    #print(f"didn't found com valid config")
+                                    pass
+                                rand_state = com_valid_config
+                            else:
+                                close_to_com_counter += 1
+                                if close_to_com_counter == close_to_com_counter_thresh - 1:
+                                    find_com_config = True
+                                    if box_size < 100:
+                                        box_size += 1
+                                rand_state = self.get_near_poi_com_config(
+                                    np.copy(com_valid_config), close_to_com_counter/close_to_com_counter_thresh)
 
-                    elif enable_extreme_and_mean_config_focus and self.tree.max_coverage >= 0.75:
-                        sums = np.array([np.sum(arr) for arr in milestones])
-                        max_sum_config = max(milestones, key=lambda array: np.sum(array))
-                        min_sum_config = min(milestones, key=lambda array: np.sum(array))
-                        median_sum = np.median(sums)
-                        index = np.argmin(np.abs(sums - median_sum))
-                        median_sum_config = milestones[index]
-                        mean_sum = np.mean(sums)
-                        index = np.argmin(np.abs(sums - mean_sum))
-                        mean_sum_config = milestones[index]
+                        elif enable_extreme_and_mean_config_focus:
+                            sums = np.array([np.sum(arr) for arr in milestones])
+                            max_sum_config = max(milestones, key=lambda array: np.sum(array))
+                            min_sum_config = min(milestones, key=lambda array: np.sum(array))
+                            median_sum = np.median(sums)
+                            index = np.argmin(np.abs(sums - median_sum))
+                            median_sum_config = milestones[index]
+                            mean_sum = np.mean(sums)
+                            index = np.argmin(np.abs(sums - mean_sum))
+                            mean_sum_config = milestones[index]
 
-                        if np.random.rand() < 0.7:
-                            if np.random.rand() < 0.25:
+                            prob = np.random.rand()
+                            if prob < 0.25:
                                 #print(f" max_sum_config = {max_sum_config}")
                                 rand_state = self.get_near_milestone_config(max_sum_config, range_factor=3)
-                            elif np.random.rand() < 0.5:
+                            elif prob < 0.5:
                                 #print(f" median_sum_config = {median_sum_config}")
                                 rand_state = self.get_near_milestone_config(median_sum_config, range_factor=3)
-                            elif np.random.rand() < 0.75:
+                            elif prob < 0.75:
                                 #print(f" mean_sum_config = {mean_sum_config}")
                                 rand_state = self.get_near_milestone_config(mean_sum_config, range_factor=3)
                             else:
@@ -163,8 +175,6 @@ class RRTInspectionPlanner(object):
                                 rand_state = self.get_near_milestone_config(min_sum_config, range_factor=3)
                         else:
                             rand_state = self.get_poi_biased_config(milestones)
-                    else:
-                        rand_state = self.get_poi_biased_config(milestones)
                 else:
                     rand_state = self.get_random_config()
 
@@ -199,6 +209,11 @@ class RRTInspectionPlanner(object):
                         near_milestone_config_checks_count = 0
                         milestones.append(new_state)
 
+                elapsed_time = time.time() - start_time
+                if elapsed_time >= timeout_seconds:
+                    print("Timeout occurred!")
+                    print(f"max_coverage = {self.tree.max_coverage}")
+                    break
             curr_id = self.tree.max_coverage_id
             cur_plan.append(self.tree.vertices[curr_id].config)
             while curr_id != self.tree.get_root_id():
@@ -241,13 +256,16 @@ class RRTInspectionPlanner(object):
                       np.random.uniform(min_angle, max_angle)])
         return rand_config
 
-    def get_near_milestone_config(self, milestone_config, range_factor=None):
-        if range_factor is None:
-            range_factor = 4
-        close_config = np.array([np.random.uniform(milestone_config[0] - np.pi/(4*range_factor), milestone_config[0] + np.pi/(4*range_factor)),
-                                 np.random.uniform(milestone_config[1] - np.pi/(3*range_factor), milestone_config[1] + np.pi/(3*range_factor)),
-                                 np.random.uniform(milestone_config[2] - np.pi/(2*range_factor), milestone_config[2] + np.pi/(2*range_factor)),
-                                 np.random.uniform(milestone_config[3] - np.pi/range_factor, milestone_config[3] + np.pi/range_factor)])
+    def get_near_milestone_config(self, milestone_config, range_factor=4):
+        close_config = np.array(
+            [np.random.uniform(milestone_config[0] - np.pi/(4*range_factor),
+                               milestone_config[0] + np.pi/(4*range_factor)),
+             np.random.uniform(milestone_config[1] - np.pi/(3*range_factor),
+                               milestone_config[1] + np.pi/(3*range_factor)),
+             np.random.uniform(milestone_config[2] - np.pi/(2*range_factor),
+                               milestone_config[2] + np.pi/(2*range_factor)),
+             np.random.uniform(milestone_config[3] - np.pi/range_factor,
+                               milestone_config[3] + np.pi/range_factor)])
         return close_config
 
     def get_near_poi_com_config(self, poi_com_config, frac):
