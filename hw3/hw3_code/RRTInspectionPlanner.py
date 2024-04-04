@@ -35,7 +35,7 @@ class RRTInspectionPlanner(object):
 
         num_of_runs_for_average = 1
 
-        average_runs_enable = True
+        average_runs_enable = False
         if average_runs_enable:
             num_of_runs_for_average = 10
 
